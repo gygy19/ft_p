@@ -1,18 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   sig.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jguyet <jguyet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/03/31 18:43:23 by jguyet            #+#    #+#             */
-/*   Updated: 2017/03/31 18:43:51 by jguyet           ###   ########.fr       */
+/*   Created: 2017/03/21 15:41:35 by jguyet            #+#    #+#             */
+/*   Updated: 2017/03/21 15:41:36 by jguyet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int main(int argc, char **argv)
-{
-	(void)argc;
-	(void)argv;
-	return (0);
-}
+#ifndef SIG_H
+# define SIG_H
+
+# include <signal.h>
+
+void	ctrlc(int i);
+void	ctrlz(int i);
+void	ctrlq(int i);
+
+int		g_sig;
+
+#endif
