@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "irc_client.h"
+#include "ftp_client.h"
 
 static void		move_cursor_right(t_socket_client *client)
 {

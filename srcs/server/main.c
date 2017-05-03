@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "irc_server.h"
+#include "ftp_server.h"
 #include "sig.h"
 
 t_socket_server	*singleton_socket_server(int port)
@@ -25,9 +25,7 @@ t_socket_server	*singleton_socket_server(int port)
 		server->data_processor = data_processor;
 		server->socket_accept = socket_accept;
 		server->socket_disconnect = socket_disconnect;
-		server->send_message_to_all = send_message_to_all;
 		server->clients = NULL;
-		server->channels = NULL;
 	}
 	return (server);
 }
@@ -48,6 +46,5 @@ int				main(int argc, char **argv)
 	signal(SIGINT, ctrlc);
 	signal(SIGTSTP, ctrlz);
 	signal(SIGQUIT, ctrlq);
-	load_channels(server);
 	return (socket_initialize(server));
 }

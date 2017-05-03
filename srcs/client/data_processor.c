@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "irc_client.h"
+#include "ftp_client.h"
 
 void		data_processor(t_socket_client *client, char *message)
 {

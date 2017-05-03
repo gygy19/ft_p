@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "irc_client.h"
+#include "ftp_client.h"
 #include <string.h>
 
 int		socket_connection_is_estabilised(int fd)

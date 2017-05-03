@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "irc_client.h"
+#include "ftp_client.h"
 #include "xor.h"
 
 int			client_handler(t_socket_client *client)

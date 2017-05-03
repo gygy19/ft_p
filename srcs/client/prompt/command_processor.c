@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "irc_client.h"
+#include "ftp_client.h"
 
 t_cmds			*new_command(t_socket_client *client)
 {

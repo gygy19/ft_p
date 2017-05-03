@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "irc_server.h"
+#include "ftp_server.h"
 
 static void	set_clients_fds(t_socket_server *server, fd_set *rdfs, int *maxfd)
 {

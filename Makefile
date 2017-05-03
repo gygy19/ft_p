@@ -39,19 +39,12 @@ INCDIRLIBFT	=	$(LIBFTDIR)/includes/
 SRCSERVER	=	\
 				srcs/server/main.c											\
 				srcs/server/data_processor.c								\
-				srcs/server/channel/channel.c								\
-				srcs/server/channel/functions_getting_channel.c				\
-				srcs/server/channel/functions_to_send_on_channel.c			\
 				srcs/server/lib/server.c									\
 				srcs/server/lib/handler.c									\
 				srcs/server/lib/socket_accept.c								\
 				srcs/server/lib/sig.c										\
 				srcs/server/client/client.c									\
 				srcs/server/client/client_aks.c								\
-				srcs/server/message/nick_action.c							\
-				srcs/server/message/who_action.c							\
-				srcs/server/message/mp_action.c								\
-				srcs/server/message/channel_action.c						\
 				srcs/xor/xor.c												\
 				srcs/xor/hexa_xor.c											\
 				srcs/server/lib/socket_disconnect.c

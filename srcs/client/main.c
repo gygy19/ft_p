@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "irc_client.h"
+#include "ftp_client.h"
 
 t_socket_client	*load_struct_socket_client(void)
 {
@@ -33,15 +33,19 @@ int				main(int argc, char **argv)
 {
 	t_socket_client *client;
 
-	(void)argc;
-	(void)argv;
-	client = load_struct_socket_client();
-	client->events[0].fd = 0;
-	client->events[0].read = read_keys;
-	client->events[1].fd = 0;
-	client->events[1].read = read_keys;
-	load_termios_console();
-	print_prompt(client);
-	client_handler(client);
+	if (argc == 3)
+	{
+		client = load_struct_socket_client();
+		client->events[0].fd = 0;
+		client->events[0].read = read_keys;
+		client->events[1].fd = 0;
+		client->events[1].read = read_keys;
+		load_termios_console();
+		if (gethostbyname(argv[1]) && open_socket_connection(client, argv[1], ft_atoi(argv[2])))
+		{
+			print_prompt(client);
+			client_handler(client);
+		}
+	}
 	return (0);
 }

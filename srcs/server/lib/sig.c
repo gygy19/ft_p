@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "sig.h"
-#include "irc_server.h"
+#include "ftp_server.h"
 
 void	ctrlc(int i)
 {

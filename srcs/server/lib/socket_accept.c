@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "irc_server.h"
+#include "ftp_server.h"
 
 t_client	*socket_accept(t_socket_server *server, int fd,\
 	struct sockaddr_in *addr)
@@ -20,9 +20,8 @@ t_client	*socket_accept(t_socket_server *server, int fd,\
 	if (!(client = add_new_client(server, fd)))
 		return (NULL);
 	client->in = *addr;
-	ft_printf("New TCP connexion from %s:%d\n",\
+	ft_printf("New TCP connexion from [%s:%d]\n",\
 		inet_ntoa(client->in.sin_addr), ntohs(client->in.sin_port));
-	client->nickname = ft_sprintf("guest%d", client->fd);
-	client->send(client, client->serialize("WM"));
+	client->send(client, client->serialize("WM"));//welcome message
 	return (client);
 }

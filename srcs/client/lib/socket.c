@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "irc_client.h"
+#include "ftp_client.h"
 
 int		open_socket_connection(t_socket_client *client,\
 	char *formated_ip, int port)

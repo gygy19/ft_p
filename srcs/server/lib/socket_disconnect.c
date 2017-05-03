@@ -10,14 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "irc_server.h"
+#include "ftp_server.h"
 
 static void	print_disconnect_message(t_client *client)
 {
-	if (client->nickname != NULL)
-		ft_printf("Client %s disconnect\n", client->nickname);
-	else
-		ft_printf("Client (%d) disconnect\n", client->fd);
+	ft_printf("Client (%d) disconnect\n", client->fd);
 }
 
 t_client	*socket_disconnect(t_socket_server *server, t_client *client)

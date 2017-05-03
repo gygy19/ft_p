@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "irc_server.h"
+#include "ftp_server.h"
 #include "xor.h"
 
 static void	print_action(char *message, char *s)
@@ -41,8 +41,8 @@ int			send_message(t_client *client, char *message)
 	r = 0;
 	if (ft_strlen(message) < 400)
 	{
-		ft_printf("Send message to %s %s:%d\n",\
-		client->nickname, inet_ntoa(client->in.sin_addr),\
+		ft_printf("Send message to [%s:%d]\n",\
+		inet_ntoa(client->in.sin_addr),\
 		ntohs(client->in.sin_port));
 		ft_printf("{yellow}Send crypted message     : %s{reset}\n", print);
 		print_action(message, "Send");
@@ -82,8 +82,8 @@ int			received_message(t_socket_server *server, t_client *client)
 	print = print_crypted(client->message);
 	if (ft_strlen(uncrypted) < 400)
 	{
-		ft_printf("{yellow}New message of %s from [%s:%d] {reset}\n",\
-			client->nickname, inet_ntoa(client->in.sin_addr),\
+		ft_printf("{yellow}New message from [%s:%d] {reset}\n",\
+			inet_ntoa(client->in.sin_addr),\
 			ntohs(client->in.sin_port));
 		ft_printf("{yellow}Received crypted message : %s{reset}\n", print);
 		print_action(uncrypted, "Received");

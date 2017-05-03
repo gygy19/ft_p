@@ -10,22 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "irc_server.h"
-
-static int	autentificate_client(t_socket_server *server, t_client *client)
-{
-	t_channel *channel;
-
-	channel = server->channels;
-	while (channel != NULL)
-	{
-		client->send(client,\
-			client->serialize("CA%d|%s", channel->id, channel->name));
-		channel = channel->next(channel);
-	}
-	client->send(client, client->serialize("NC%s", client->nickname));
-	return (0);
-}
+#include "ftp_server.h"
 
 int			data_processor(t_socket_server *server, t_client *client,\
 	char *message)
@@ -41,14 +26,12 @@ int			data_processor(t_socket_server *server, t_client *client,\
 	if (ft_strlen(message) > 1)
 		type = message[1];
 	finalmessage = ft_strsub(message, 2, ft_strlen(message));
-	if (action == 'C')
-		return (channel_action(server, client, type, finalmessage));
-	if (action == 'N')
-		return (nickname_action(server, client, type, finalmessage));
-	if (action == 'M' && type == 'P')
-		return (mp_action(server, client, finalmessage));
-	if (action == 'W' && type == 'B')
-		return (autentificate_client(server, client));
+
+	(void)action;
+	(void)type;
+	(void)server;
+	(void)client;
+	
 	if (finalmessage != NULL)
 		ft_strdel(&finalmessage);
 	return (0);
