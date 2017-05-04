@@ -15,23 +15,16 @@
 int			data_processor(t_socket_server *server, t_client *client,\
 	char *message)
 {
-	char	*finalmessage;
-	char	action;
-	char	type;
+	int								packetId;
+	char							*finalmessage;
+	t_ProtocolMessage	*protocolMessage;
 
-	action = '\0';
-	type = '\0';
-	if (ft_strlen(message) > 0)
-		action = message[0];
-	if (ft_strlen(message) > 1)
-		type = message[1];
-	finalmessage = ft_strsub(message, 2, ft_strlen(message));
+	packetId = message[0];
+	finalmessage = ft_strsub(message, 1, ft_strlen(message));
 
-	(void)action;
-	(void)type;
-	(void)server;
-	(void)client;
-	
+	protocolMessage = (t_ProtocolMessage*)server->messagesReceivedMap->get(server->messagesReceivedMap, packetId);
+	if (protocolMessage != NULL)
+		protocolMessage->execute(server, client, finalmessage);
 	if (finalmessage != NULL)
 		ft_strdel(&finalmessage);
 	return (0);

@@ -26,7 +26,7 @@ CC			=	gcc
 
 FLAGS		=	-Wall -Wextra -Werror -ggdb
 
-SRCDIR		=	
+SRCDIR		=
 
 OBJDIR		=	.objs/
 
@@ -37,16 +37,19 @@ LIBFTDIR	=	libft/
 INCDIRLIBFT	=	$(LIBFTDIR)/includes/
 
 SRCSERVER	=	\
-				srcs/server/main.c											\
-				srcs/server/data_processor.c								\
-				srcs/server/lib/server.c									\
-				srcs/server/lib/handler.c									\
-				srcs/server/lib/socket_accept.c								\
-				srcs/server/lib/sig.c										\
-				srcs/server/client/client.c									\
-				srcs/server/client/client_aks.c								\
-				srcs/xor/xor.c												\
-				srcs/xor/hexa_xor.c											\
+				srcs/server/main.c																\
+				srcs/server/data_processor.c											\
+				srcs/server/lib/server.c													\
+				srcs/server/lib/handler.c													\
+				srcs/server/lib/socket_accept.c										\
+				srcs/server/lib/sig.c															\
+				srcs/server/client/client.c												\
+				srcs/server/client/client_aks.c										\
+				srcs/server/message/loadProtocolsMessagesReceived.c\
+				srcs/server/message/received/cdProtocolMessage.c	\
+				srcs/server/message/received/pwdProtocolMessage.c	\
+				srcs/xor/xor.c																		\
+				srcs/xor/hexa_xor.c																\
 				srcs/server/lib/socket_disconnect.c
 
 SRCSSERVER	=	$(addprefix $(SRCDIR), $(SRCSERVER))
@@ -54,20 +57,25 @@ SRCSSERVER	=	$(addprefix $(SRCDIR), $(SRCSERVER))
 OBJSSERVER	=	$(addprefix $(OBJDIR), $(SRCSERVER:.c=.o))
 
 SRCCLIENT	=	\
-				srcs/client/main.c											\
-				srcs/client/data_processor.c								\
+				srcs/client/main.c																\
+				srcs/client/data_processor.c											\
 				srcs/client/prompt/command_processor.c						\
-				srcs/client/prompt/command_history.c						\
-				srcs/client/prompt/command_remove.c							\
-				srcs/client/prompt/command_switcher.c						\
-				srcs/client/prompt/prompt_putting.c							\
+				srcs/client/prompt/command_history.c							\
+				srcs/client/prompt/command_remove.c								\
+				srcs/client/prompt/command_switcher.c							\
+				srcs/client/prompt/prompt_putting.c								\
 				srcs/client/prompt/cursor_navigation.c						\
-				srcs/client/lib/handler.c									\
-				srcs/client/lib/socket.c									\
-				srcs/client/window/size.c									\
-				srcs/client/window/termios.c								\
-				srcs/xor/xor.c												\
-				srcs/xor/hexa_xor.c											\
+				srcs/client/commands/CommandLoader.c							\
+				srcs/client/message/loadProtocolsMessagesReceived.c\
+				srcs/client/message/send/cdProtocolMessage.c			\
+				srcs/client/message/send/pwdProtocolMessage.c			\
+				srcs/client/message/received/textProtocolMessage.c\
+				srcs/client/lib/handler.c													\
+				srcs/client/lib/socket.c													\
+				srcs/client/window/size.c													\
+				srcs/client/window/termios.c											\
+				srcs/xor/xor.c																		\
+				srcs/xor/hexa_xor.c																\
 				srcs/client/lib/socket_session.c
 
 SRCSCLIENT	=	$(addprefix $(SRCDIR), $(SRCCLIENT))

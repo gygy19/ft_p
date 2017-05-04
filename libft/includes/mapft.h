@@ -16,14 +16,7 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include <limits.h>
-
-# define BOOLEAN int
-
-typedef enum		e_boolean
-{
-	true = 1,
-	false = 0
-}					t_boolean;
+# include <libft.h>
 
 typedef struct		s_hash
 {

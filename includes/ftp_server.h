@@ -23,6 +23,8 @@
 # include <mapft.h>
 # include <unistd.h>
 
+# include "ftp_ProtocolMessages.h"
+
 # define EPROTONOSUPPORT 93
 # define EAFNOSUPPORT    97
 
@@ -35,31 +37,34 @@
 
 # define DEBUG_MODE 1
 
-typedef struct			s_client
+typedef struct				s_client
 {
-	int					fd;
-	struct s_client		*right;
-	struct s_client		*left;
-	struct s_client		*(*next)();
-	int					(*read)();
-	int					(*send)();
-	char				*(*serialize)(const char *, ...);
-	char				*message;
+	int									fd;
+	struct s_client			*right;
+	struct s_client			*left;
+	struct s_client			*(*next)();
+	int									(*read)();
+	int									(*send)();
+	char								*(*serialize)(const char *, ...);
+	char								*message;
 	struct sockaddr_in	in;
-}						t_client;
+	char								*pwd;
+}											t_client;
 
 typedef struct			s_socket_server
 {
-	int					port;
-	int					listenfd;
-	int					connfd;
+	int								port;
+	int								listenfd;
+	int								connfd;
+	char							*pwd;
 	struct sockaddr_in	serv_addr;
-	int					(*data_processor)();
-	int					(*send_message_to_all)();
+	int								(*data_processor)();
+	int								(*send_message_to_all)();
 	struct s_client		*(*socket_accept)();
 	struct s_client		*(*socket_disconnect)();
 	struct s_client		*clients;
-}						t_socket_server;
+	struct s_hashmap	*messagesReceivedMap;
+}										t_socket_server;
 
 /*
 ** Prog server
@@ -88,5 +93,27 @@ t_client				*add_new_client(t_socket_server *server, int fd);
 int						send_message(t_client *client, char *message);
 int						received_message(t_socket_server *server,\
 						t_client *client);
+
+/*
+** Messages received
+*/
+BOOLEAN   processReceivedcdProtocolMessage(t_socket_server *server, t_client *client, char *message);
+BOOLEAN   processReceivedpwdProtocolMessage(t_socket_server *server, t_client *client, char *message);
+
+# define ARRAY_RECEIVED_MESSAGES_SIZE 2
+
+static const t_ProtocolMessage arrayProtocolMessagesReceived[ARRAY_RECEIVED_MESSAGES_SIZE] = {
+	{"cd", 100, processReceivedcdProtocolMessage},
+	{"pwd", 101, processReceivedpwdProtocolMessage}
+};
+
+void loadProtocolsMessagesReceived(t_socket_server *server);
+
+
+# define ARRAY_SEND_MESSAGES_SIZE 1
+
+static const t_ProtocolMessage arrayProtocolMessagesSend[ARRAY_SEND_MESSAGES_SIZE] = {
+	{"cd", 100, NULL}
+};
 
 #endif

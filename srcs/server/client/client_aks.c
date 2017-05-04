@@ -71,7 +71,6 @@ static int	read_new_message(t_client *client)
 int			received_message(t_socket_server *server, t_client *client)
 {
 	char	*uncrypted;
-	char	*print;
 
 	if (!read_new_message(client))
 		return (0);
@@ -79,17 +78,14 @@ int			received_message(t_socket_server *server, t_client *client)
 	if (uncrypted[ft_strlen(uncrypted) - 1] != '\n')
 		return (1);
 	uncrypted[ft_strlen(uncrypted) - 1] = '\0';
-	print = print_crypted(client->message);
 	if (ft_strlen(uncrypted) < 400)
 	{
-		ft_printf("{yellow}New message from [%s:%d] {reset}\n",\
+		ft_printf("{color70}New message from [%s:%d] ({color149}%d{reset}{color70}){reset}\n",\
 			inet_ntoa(client->in.sin_addr),\
-			ntohs(client->in.sin_port));
-		ft_printf("{yellow}Received crypted message : %s{reset}\n", print);
-		print_action(uncrypted, "Received");
+			ntohs(client->in.sin_port),\
+			uncrypted[0]);
 		server->data_processor(server, client, uncrypted);
 	}
-	ft_strdel(&print);
 	ft_strdel(&uncrypted);
 	ft_strdel(&client->message);
 	client->message = NULL;

@@ -40,6 +40,8 @@ int				main(int argc, char **argv)
 		client->events[0].read = read_keys;
 		client->events[1].fd = 0;
 		client->events[1].read = read_keys;
+		loadMapOfCommands(client);
+		loadProtocolsMessagesReceived(client);
 		load_termios_console();
 		if (gethostbyname(argv[1]) && open_socket_connection(client, argv[1], ft_atoi(argv[2])))
 		{

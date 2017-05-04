@@ -1,27 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   command_switcher.c                                 :+:      :+:    :+:   */
+/*   CommandLoader.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jguyet <jguyet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/03/29 05:18:00 by jguyet            #+#    #+#             */
-/*   Updated: 2017/03/29 05:18:01 by jguyet           ###   ########.fr       */
+/*   Created: 2017/05/04 15:32:01 by jguyet            #+#    #+#             */
+/*   Updated: 2017/05/04 15:32:22 by jguyet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ftp_client.h"
 
-void			switch_command(t_socket_client *client, char *cmd)
+void loadMapOfCommands(t_socket_client *client)
 {
-	char 							**split;
-	t_CommandHooker		*command;
+  int i;
 
-	split = ft_split_string(cmd, " ");
-	if (array_length(split) == 0)
-		return ;
-	command = (t_CommandHooker*)client->commandsMap->get(client->commandsMap, split[0]);
-	if (command != NULL && (array_length(split) - 1) >= command->args_Min)
-		command->execute(client, split);
-	free_array(split);
+  i = 0;
+  client->commandsMap = newstringhashmap(10);
+  while (i < ARRAY_CLIENT_COMMANDS_SIZE)
+  {
+    ft_printf("%s, %d\n", arrayClientCommands[i].name, arrayClientCommands[i].args_Min);
+    client->commandsMap->add(client->commandsMap, arrayClientCommands[i].name, &arrayClientCommands[i]);
+    i++;
+  }
 }

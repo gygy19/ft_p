@@ -49,6 +49,7 @@ t_client	*add_new_client(t_socket_server *server, int fd)
 	c->right = NULL;
 	c->message = NULL;
 	c->serialize = ft_sprintf;
+	c->pwd = server->pwd;
 	add_client_to_server(server, c);
 	return (c);
 }

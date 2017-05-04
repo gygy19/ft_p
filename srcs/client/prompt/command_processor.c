@@ -115,10 +115,10 @@ void			read_keys(t_socket_client *client)
 		if (client->current_cmd->right != NULL)
 			use_history_command(client);
 		escape_line(client);
+		ft_printf("\n");
 		switch_command(client, client->current_cmd->cmd);
 		client->current_cmd->cursor_pos = 0;
 		client->current_cmd = new_command(client);
-		ft_printf("\n");
 		reprint_line(client);
 	}
 	else
