@@ -21,7 +21,7 @@ typedef enum		e_boolean
 {
 	true = 1,
 	false = 0
-}								t_boolean;
+}					t_boolean;
 
 /*
 ** PART1

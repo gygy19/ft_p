@@ -16,7 +16,7 @@ void			print_history(t_socket_client *client)
 {
 	ft_putstr("\033[u");
 	ft_putstr("\033[K");
-	print_current_command(client, 1);
+	reprint_line(client);
 }
 
 void			up_to_next_olded_command(t_socket_client *client)

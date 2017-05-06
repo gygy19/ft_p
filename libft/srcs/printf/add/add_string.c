@@ -43,6 +43,8 @@ void		add_string(t_string *string, char *s, int del)
 
 	i = 0;
 	o = ft_strlen(s);
+	if (o == 0)
+		return ;
 	check_if_buffer_is_empty(string, o);
 	while (i < o)
 		string->new[string->res++] = s[i++];

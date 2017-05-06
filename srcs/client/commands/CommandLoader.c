@@ -20,7 +20,7 @@ void loadMapOfCommands(t_socket_client *client)
   client->commandsMap = newstringhashmap(10);
   while (i < ARRAY_CLIENT_COMMANDS_SIZE)
   {
-    ft_printf("%s, %d\n", arrayClientCommands[i].name, arrayClientCommands[i].args_Min);
+    ft_printf("%s, %d\n", arrayClientCommands[i].name, arrayClientCommands[i].key);
     client->commandsMap->add(client->commandsMap, arrayClientCommands[i].name, &arrayClientCommands[i]);
     i++;
   }

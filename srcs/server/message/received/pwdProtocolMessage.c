@@ -17,7 +17,6 @@ BOOLEAN   processReceivedpwdProtocolMessage(t_socket_server *server, t_client *c
   (void)server;
   (void)client;
   (void)message;
-  ft_printf("YO\n");
-  client->send(client, client->serialize("%c%s", 101, client->pwd));
+  client->send(client, client->serialize("%c%s", 12, client->pwd));
   return (true);
 }

@@ -41,7 +41,6 @@ int			ft_printf(const char *s, ...)
 	string->s = (char*)s;
 	string->res = 0;
 	string->new = ft_strnew(BUFFER);
-	string->sub_num = NULL;
 	string->tmp_alloc = 0;
 	string->tmp = NULL;
 	string->size = BUFFER;
@@ -65,7 +64,6 @@ int			ft_fprintf(int fd, const char *s, ...)
 	string->s = (char*)s;
 	string->res = 0;
 	string->new = ft_strnew(BUFFER);
-	string->sub_num = NULL;
 	string->tmp_alloc = 0;
 	string->tmp = NULL;
 	string->size = BUFFER;
@@ -87,7 +85,6 @@ int			ft_asprintf(char **ptr, const char *s, ...)
 	string->s = (char*)s;
 	string->res = 0;
 	string->new = ft_strnew(BUFFER);
-	string->sub_num = NULL;
 	string->tmp_alloc = 0;
 	string->tmp = NULL;
 	string->size = BUFFER;
@@ -109,7 +106,6 @@ char		*ft_sprintf(const char *s, ...)
 	string->s = (char*)s;
 	string->res = 0;
 	string->new = ft_strnew(BUFFER);
-	string->sub_num = NULL;
 	string->tmp_alloc = 0;
 	string->tmp = NULL;
 	string->size = BUFFER;

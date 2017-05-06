@@ -14,6 +14,8 @@
 
 BOOLEAN   processSendcdProtocolMessage(t_socket_client *client, char **split)
 {
+  if (array_length(split) <= 1)
+    return (false);
   client->send(client, client->serialize("%c%s", 100, split[1]));
   return (true);
 }

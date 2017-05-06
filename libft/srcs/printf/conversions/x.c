@@ -20,6 +20,7 @@ static void		conv_process(t_string *string, char *tmp)
 		return ;
 	string->base = 16;
 	string->tmp = tmp;
+	string->tmp_alloc = 0;
 	string->is_negative = 0;
 	if (string->sub_flags & SUB_SUP)
 		string->sub_flags -= SUB_SUP;

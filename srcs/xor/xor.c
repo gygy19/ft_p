@@ -36,6 +36,8 @@ char		*crypt_string_to_xor(char *msg)
 	int		i;
 	char	*crypted;
 
+	if (ACTIVED_XOR == 0)
+		return (ft_strdup(msg));
 	i = 0;
 	crypted = ft_strnew(0);
 	while (msg[i])
@@ -52,6 +54,8 @@ char		*uncrypt_xor_to_string(char *crypted)
 	int		n;
 	char	*msg;
 
+	if (ACTIVED_XOR == 0)
+		return (ft_strdup(crypted));
 	i = 0;
 	n = 0;
 	msg = ft_strnew(0);
@@ -71,6 +75,8 @@ char		*print_crypted(char *crypted)
 	char	*print;
 	char	*res;
 
+	if (ACTIVED_XOR == 0)
+		return (ft_strdup(crypted));
 	n = 0;
 	res = ft_strnew(0);
 	while (crypted[n] && crypted[n + 1])

@@ -18,7 +18,7 @@ static void		s_alt(t_string *t)
 {
 	if ((t->sub_flags & SUB_SHARP) && t->base == 16)
 	{
-		add_char(t, L'0');
+		add_char(t, '0');
 		if (t->is_big)
 			add_char(t, 'X');
 		else

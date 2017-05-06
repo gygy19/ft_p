@@ -49,6 +49,8 @@ typedef struct				s_client
 	char								*message;
 	struct sockaddr_in	in;
 	char								*pwd;
+	char								*oldpwd;
+	char								*home;
 }											t_client;
 
 typedef struct			s_socket_server
@@ -99,12 +101,14 @@ int						received_message(t_socket_server *server,\
 */
 BOOLEAN   processReceivedcdProtocolMessage(t_socket_server *server, t_client *client, char *message);
 BOOLEAN   processReceivedpwdProtocolMessage(t_socket_server *server, t_client *client, char *message);
+BOOLEAN   processReceivedlsProtocolMessage(t_socket_server *server, t_client *client, char *message);
 
-# define ARRAY_RECEIVED_MESSAGES_SIZE 2
+# define ARRAY_RECEIVED_MESSAGES_SIZE 3
 
 static const t_ProtocolMessage arrayProtocolMessagesReceived[ARRAY_RECEIVED_MESSAGES_SIZE] = {
 	{"cd", 100, processReceivedcdProtocolMessage},
-	{"pwd", 101, processReceivedpwdProtocolMessage}
+	{"pwd", 101, processReceivedpwdProtocolMessage},
+	{"ls", 102, processReceivedlsProtocolMessage}
 };
 
 void loadProtocolsMessagesReceived(t_socket_server *server);

@@ -104,7 +104,6 @@ void		received_message(t_socket_client *client)
 		return ;
 	uncrypted[ft_strlen(uncrypted) - 1] = '\0';
 	print = print_crypted(client->message);
-	ft_putstr("\033[u\033[K\033[1A\033[K");
 	data_processor(client, uncrypted);
 	ft_strdel(&print);
 	ft_strdel(&uncrypted);

@@ -22,6 +22,6 @@ t_client	*socket_accept(t_socket_server *server, int fd,\
 	client->in = *addr;
 	ft_printf("New TCP connexion from [%s:%d]\n",\
 		inet_ntoa(client->in.sin_addr), ntohs(client->in.sin_port));
-	client->send(client, client->serialize("WM"));//welcome message
+	client->send(client, client->serialize("%d", 1));//welcome message
 	return (client);
 }

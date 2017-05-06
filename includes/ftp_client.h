@@ -133,12 +133,20 @@ void					print_current_command(t_socket_client *client,\
 void 			loadMapOfCommands(t_socket_client *client);
 BOOLEAN   processSendcdProtocolMessage(t_socket_client *client, char **split);
 BOOLEAN   processSendpwdProtocolMessage(t_socket_client *client, char **split);
+BOOLEAN   processSendlsProtocolMessage(t_socket_client *client, char **split);
+BOOLEAN   processSendgetFileProtocolMessage(t_socket_client *client, char **split);
+BOOLEAN   processSendputFileProtocolMessage(t_socket_client *client, char **split);
+BOOLEAN   processQuitCommand(t_socket_client *client, char **split);
 
-# define ARRAY_CLIENT_COMMANDS_SIZE 2
+# define ARRAY_CLIENT_COMMANDS_SIZE 6
 
 static const t_CommandHooker arrayClientCommands[ARRAY_CLIENT_COMMANDS_SIZE] = {
 	{"cd", 100, processSendcdProtocolMessage, 0},
-	{"pwd", 101, processSendpwdProtocolMessage, 0}
+	{"pwd", 101, processSendpwdProtocolMessage, 0},
+	{"ls", 102, processSendlsProtocolMessage, 0},
+	{"get", 103, processSendgetFileProtocolMessage, 0},
+	{"put", 104, processSendputFileProtocolMessage, 0},
+	{"quit", 0, processQuitCommand, 0}
 };
 
 /*
@@ -146,11 +154,13 @@ static const t_CommandHooker arrayClientCommands[ARRAY_CLIENT_COMMANDS_SIZE] = {
 */
 void 			loadProtocolsMessagesReceived(t_socket_client *client);
 BOOLEAN   processReceivedTextProtocolMessage(t_socket_client *client, char *message);
+BOOLEAN   processReceivedDirectoryProtocolMessage(t_socket_client *client, char *message);
 
 # define ARRAY_RECEIVED_MESSAGES_SIZE 2
 
 static const t_ProtocolMessage arrayProtocolMessagesReceived[ARRAY_RECEIVED_MESSAGES_SIZE] = {
-	{"TextMessage", 12, processReceivedTextProtocolMessage}
+	{"TextMessage", 12, processReceivedTextProtocolMessage},
+	{"DirectoryInfos", 13, processReceivedDirectoryProtocolMessage}
 };
 
 /*

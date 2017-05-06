@@ -23,6 +23,7 @@ char		hexastring_to_int(char *s);
 
 # endif
 
+# define ACTIVED_XOR 0
 # define XOR_KEY "JGUYET"
 
 char		*crypt_string_to_xor(char *msg);

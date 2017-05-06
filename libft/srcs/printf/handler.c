@@ -32,15 +32,11 @@ int				parse_ptr(t_string *string, int i)
 	{
 		return (conv_purcent(string, i));
 	}
-	else if (string->sub_num != NULL)
-	{
-		string->tmp = ft_strndup(string->s + i + 1, 1);
-		string->tmp_alloc = 1;
-		string->is_big = 5;
-		add_conv_string(string, string->tmp);
-		return (i + 1);
-	}
-	return (i);
+	string->tmp = ft_strndup(string->s + i + 1, 1);
+	string->tmp_alloc = 1;
+	string->is_big = 5;
+	add_conv_string(string, string->tmp);
+	return (i + 1);
 }
 
 static void		set_converter(t_string *string, char c1, char c2, int *ok)
@@ -87,17 +83,12 @@ void			restart_string_params(t_string *string)
 	string->space = 0;
 	string->zero = 0;
 	string->is_negative = 0;
-	if (string->tmp_alloc)
+	if (string->tmp_alloc && string->tmp != NULL)
 	{
 		ft_strdel(&string->tmp);
 		string->tmp_alloc = 0;
 	}
 	string->tmp = NULL;
-	if (string->sub_num != NULL)
-	{
-		ft_strdel(&string->sub_num);
-		string->sub_num = NULL;
-	}
 	string->is_big = 0;
 }
 
@@ -107,7 +98,7 @@ int				parse_flags(t_string *string, int i)
 
 	if (!string->s[i])
 		return (0);
-	string->sub_num = NULL;
+	ft_bzero(string->sub_num, BUFFER_SUBNUM);
 	save = i;
 	while (string->s[i] && string->s[i] != DELIMITER)
 		i++;

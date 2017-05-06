@@ -21,8 +21,10 @@ void			load(t_string *t)
 		if (!ft_strcmp(t->sub_num, ".") || !ft_strcmp(t->sub_num, ".0")
 			|| !ft_strcmp(t->sub_num, "0.0") || !ft_strcmp(t->sub_num, "0."))
 		{
-			ft_strdel(&t->tmp);
+			if (t->tmp_alloc == 1)
+				ft_strdel(&t->tmp);
 			t->tmp = NULL;
+			t->tmp_alloc = 0;
 		}
 	}
 	if (ft_strlen(t->sub_num) == 0 || !ft_strcmp(t->sub_num, "."))

@@ -22,6 +22,7 @@ static void		conv_process(t_string *string, char *tmp)
 		string->sub_flags -= SUB_SUP;
 	string->base = 10;
 	string->tmp = tmp;
+	string->tmp_alloc = 0;
 	precision(string);
 }
 

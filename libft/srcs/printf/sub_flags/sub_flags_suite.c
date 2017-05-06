@@ -14,7 +14,7 @@
 
 #include "printf.h"
 
-int				add_wildcard(char **n, int i, t_string *t, short point)
+int				add_wildcard(int i, t_string *t, short point)
 {
 	int nbr;
 
@@ -27,11 +27,11 @@ int				add_wildcard(char **n, int i, t_string *t, short point)
 		else
 			nbr = -nbr;
 	}
-	if (point == 0 && *n[0] != '\0')
-		*n = ft_strdelandnew(n, 0);
-	if (point > 0 || sub(t, -1, *n, 1) == -1)
-		*n = ft_dstrjoin(*n, ft_litoa(nbr), 3);
+	if (point == 0 && t->sub_num[0] != '\0')
+		ft_bzero(t->sub_num, BUFFER_SUBNUM);
+	if (point > 0 || sub(t, -1, t->sub_num, 1) == -1)
+		ft_strcpy(t->sub_num, ft_litoa(nbr));
 	else
-		*n = ft_dstrjoin(*n, ft_litoa(nbr), 3);
+		ft_strcpy(t->sub_num, ft_litoa(nbr));
 	return (i);
 }

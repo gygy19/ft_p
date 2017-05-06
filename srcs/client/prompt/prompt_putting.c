@@ -36,28 +36,28 @@ void			print_current_command(t_socket_client *client, int start)
 
 void			print_prompt(t_socket_client *client)
 {
+	ft_putstr("\033[s");
 	if (client->host != NULL)
 	{
-		ft_printf("{color32}<ft_p %s:%d>{reset} ",\
+		ft_printf("{color71}<FTP[%s:%d]>{reset} ",\
 			client->host, client->port);
 		ft_printf("{color228}\u2A20{reset}  ");
 	}
 	else if (client->host == NULL)
 		ft_printf("{color32}<ft_p>{reset} {color228}\u2A20{reset} ");
-	ft_putstr("\033[s");
 }
 
 void			reprint_line(t_socket_client *client)
 {
+	ft_putstr("\033[s");
 	if (client->host != NULL)
 	{
-		ft_printf("{color32}<ft_p %s:%d>{reset} {color34}",\
+		ft_printf("{color71}<FTP[%s:%d]>{reset} {color34}",\
 			client->host, client->port);
 		ft_printf("{color228}\u2A20{reset}  ");
 	}
 	else if (client->host == NULL)
 		ft_printf("{color32}<ft_p>{reset} {color228}\u2A20{reset} ");
-	ft_putstr("\033[s");
 	if (client->current_cmd->cmd != NULL)
 		print_current_command(client, 1);
 }

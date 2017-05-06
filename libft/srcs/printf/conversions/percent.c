@@ -17,8 +17,11 @@
 static void		conv_process(t_string *string, char *tmp)
 {
 	string->is_big = 5;
+	string->tmp_alloc = 0;
 	if (!ft_strcmp(string->sub_num, "0.0") || !ft_strcmp(string->sub_num, ".0"))
-		string->sub_num = ft_strnew(0);
+	{
+		ft_bzero(string->sub_num, BUFFER_SUBNUM);
+	}
 	add_conv_string(string, tmp);
 }
 

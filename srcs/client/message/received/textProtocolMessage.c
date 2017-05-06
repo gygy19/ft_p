@@ -15,6 +15,6 @@
 BOOLEAN   processReceivedTextProtocolMessage(t_socket_client *client, char *message)
 {
   (void)client;
-  ft_printf(message);
+  ft_printf("%s\n", message);
   return (true);
 }

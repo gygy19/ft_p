@@ -48,8 +48,17 @@ SRCSERVER	=	\
 				srcs/server/message/loadProtocolsMessagesReceived.c\
 				srcs/server/message/received/cdProtocolMessage.c	\
 				srcs/server/message/received/pwdProtocolMessage.c	\
+				srcs/server/message/received/lsProtocolMessage.c	\
 				srcs/xor/xor.c																		\
 				srcs/xor/hexa_xor.c																\
+				srcs/libfile/file_exists.c												\
+				srcs/libfile/is_regular.c													\
+				srcs/libfile/isdevice.c														\
+				srcs/libfile/isdir.c															\
+				srcs/libUpDownload/loadnewDownload.c							\
+				srcs/libUpDownload/loadnewUpload.c								\
+				srcs/libUpDownload/downloadPart.c									\
+				srcs/libUpDownload/uploadPart.c										\
 				srcs/server/lib/socket_disconnect.c
 
 SRCSSERVER	=	$(addprefix $(SRCDIR), $(SRCSERVER))
@@ -66,16 +75,29 @@ SRCCLIENT	=	\
 				srcs/client/prompt/prompt_putting.c								\
 				srcs/client/prompt/cursor_navigation.c						\
 				srcs/client/commands/CommandLoader.c							\
+				srcs/client/commands/quitCommand.c								\
 				srcs/client/message/loadProtocolsMessagesReceived.c\
 				srcs/client/message/send/cdProtocolMessage.c			\
 				srcs/client/message/send/pwdProtocolMessage.c			\
+				srcs/client/message/send/lsProtocolMessage.c			\
+				srcs/client/message/send/getFileProtocolMessage.c	\
+				srcs/client/message/send/putFileProtocolMessage.c	\
 				srcs/client/message/received/textProtocolMessage.c\
+				srcs/client/message/received/directoryProtocolMessage.c\
 				srcs/client/lib/handler.c													\
 				srcs/client/lib/socket.c													\
 				srcs/client/window/size.c													\
 				srcs/client/window/termios.c											\
 				srcs/xor/xor.c																		\
 				srcs/xor/hexa_xor.c																\
+				srcs/libfile/file_exists.c												\
+				srcs/libfile/is_regular.c													\
+				srcs/libfile/isdevice.c														\
+				srcs/libfile/isdir.c															\
+				srcs/libUpDownload/loadnewDownload.c							\
+				srcs/libUpDownload/loadnewUpload.c								\
+				srcs/libUpDownload/downloadPart.c									\
+				srcs/libUpDownload/uploadPart.c										\
 				srcs/client/lib/socket_session.c
 
 SRCSCLIENT	=	$(addprefix $(SRCDIR), $(SRCCLIENT))

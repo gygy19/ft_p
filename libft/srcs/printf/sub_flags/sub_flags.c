@@ -37,39 +37,38 @@ int				sub(t_string *string, int i, char *s, int zero)
 	return (i);
 }
 
-static void		final_parse_sub(t_string *string, char **n)
+static void		final_parse_sub(t_string *string)
 {
 	int		i;
 	char	*tmp;
 
-	if (!n || !*n)
-		return ;
 	i = 0;
-	while (*n[i] && *n[i] == '-')
+	while (string->sub_num[i] && string->sub_num[i] == '-')
 		i++;
 	if (i > 0)
 	{
 		if (!(string->sub_flags & SUB_INF))
 			string->sub_flags += SUB_INF;
-		tmp = *n;
-		*n = ft_strdup(*n + i);
+		tmp = ft_strdup(string->sub_num + i);
+		ft_bzero(string->sub_num, BUFFER_SUBNUM);
+		ft_memcpy(string->sub_num, tmp, ft_strlen(tmp));
 		ft_strdel(&tmp);
 	}
 }
 
-int				add_digit(char **n, int i, t_string *t, short havestars)
+int				add_digit(int i, t_string *t, short havestars)
 {
 	if (havestars != 0)
-		*n = ft_strdelandnew(n, 0);
+		ft_bzero(t->sub_num, BUFFER_SUBNUM);
 	while (t->s[i + 1] && ft_isdigit(t->s[i + 1]))
 	{
-		*n = ft_dstrjoin_char(*n, t->s[i + 1], 1);
+		t->sub_num[ft_strlen(t->sub_num)] = t->s[i + 1];
 		i++;
 	}
 	return (i);
 }
 
-static int		center_parse_sub(t_string *string, int i, char **n)
+static int		center_parse_sub(t_string *string, int i)
 {
 	short point;
 	short startpts;
@@ -82,34 +81,27 @@ static int		center_parse_sub(t_string *string, int i, char **n)
 	{
 		if (ft_isdigit(string->s[i + 1]))
 		{
-			i = add_digit(n, i, string, startpts);
+			i = add_digit(i, string, startpts);
 			continue ;
 		}
 		else if (string->s[i + 1] == '*')
 		{
-			i = add_wildcard(n, i, string, point);
+			i = add_wildcard(i, string, point);
 			startpts++;
 		}
 		else if (point == 0 && ++point > 0)
-			*n = ft_dstrjoin(*n, ".", 1);
+			string->sub_num[ft_strlen(string->sub_num)] = '.';
 		i++;
 	}
-	final_parse_sub(string, n);
+	final_parse_sub(string);
 	return (i);
 }
 
 int				sub_flags(t_string *string, int i)
 {
-	char	*n;
-
 	string->sub_flags = 0;
 	i = sub(string, i, string->s, 1);
-	if (string->sub_num != NULL)
-		ft_strdel(&string->sub_num);
-	string->sub_num = NULL;
-	n = ft_strnew(1);
-	i = center_parse_sub(string, i, &n);
-	string->sub_num = n;
+	i = center_parse_sub(string, i);
 	i = sub(string, i, string->s, 1);
 	string->left = 0;
 	string->pad = ' ';

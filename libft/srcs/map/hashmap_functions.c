@@ -74,11 +74,10 @@ void		*get_hash_value(t_hashmap *table, void *key)
 				return (element->data);
 			else if (table->type == 's'\
 				&& ft_strcmp((char*)element->key, key) == 0)
-					return (element->data);
+				return (element->data);
 			element = element->next;
 		}
 	}
-	printf("null\n");
 	return (NULL);
 }
 

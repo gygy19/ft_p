@@ -1,0 +1,76 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lsProtocolMessage.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jguyet <jguyet@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/05/06 00:24:04 by jguyet            #+#    #+#             */
+/*   Updated: 2017/05/06 00:24:06 by jguyet           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "ftp_server.h"
+#include "libfile.h"
+
+static DIR	 *open_directory(char *dir)
+{
+	DIR *dirp;
+
+	dirp = NULL;
+	if (is_dir(dir) == false)
+		return (NULL);
+	dirp = opendir(dir);
+	return (dirp);
+}
+
+static char *parseDirectoryToMessage(char *dir, int flags)
+{
+  DIR             *dirp;
+  struct dirent   *files;
+  char            *message;
+  char            *tmp;
+
+  if ((dirp = open_directory(dir)) == NULL)
+    return (NULL);
+  files = malloc(sizeof(struct dirent));
+  message = ft_strnew(0);
+  while ((files = readdir(dirp)) != 0)
+	{
+      if (files->d_name[0] == '.' && flags & 1024)
+        continue ;
+      tmp = message;
+      message = ft_sprintf("%s%s%s", message,
+      (ft_strlen(message) != 0 ? "|" : ""),
+      files->d_name);
+      ft_strdel(&tmp);
+  }
+  closedir(dirp);
+  free(files);
+  return (message);
+}
+
+BOOLEAN   processReceivedlsProtocolMessage(t_socket_server *server, t_client *client, char *message)
+{
+  char  *directoryFiles;
+  char  **split;
+
+  split = ft_split_string(message, "|");
+  if (client->pwd == NULL && array_length(split) == 0)
+    return (false);
+  if (array_length(split) == 0)
+    directoryFiles = parseDirectoryToMessage(client->pwd, 1024);
+  else
+    directoryFiles = parseDirectoryToMessage(split[0], 1024);
+  if (directoryFiles == NULL)
+  {
+    client->send(client, client->serialize("%cft_ls: %s: No such file or directory\n", 12, split[0]));
+    return (false);
+  }
+  if (ft_strlen(directoryFiles) == 0)
+    return (true);
+  (void)server;
+  client->send(client, client->serialize("%c%s", 13, directoryFiles));
+  free_array(split);
+  return (true);
+}

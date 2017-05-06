@@ -49,6 +49,8 @@ typedef enum			e_ptr_conv
 	conv_len
 }						t_ptr_conv;
 
+#  define BUFFER_SUBNUM 100
+
 typedef struct			s_string
 {
 	char				*s;
@@ -57,7 +59,7 @@ typedef struct			s_string
 	unsigned int		size;
 	t_convert			converter;
 	unsigned short		sub_flags;
-	char				*sub_num;
+	char				sub_num[BUFFER_SUBNUM];
 	char				*new;
 	int					space;
 	int					zero;
@@ -161,7 +163,7 @@ char					*wschar_to_string(wchar_t *s);
 char					*wchar_to_string(wchar_t c);
 int						ft_wslen(wchar_t *c);
 int						ft_wlen(wchar_t c);
-int						add_wildcard(char **n, int i, t_string *t, short point);
+int						add_wildcard(int i, t_string *t, short point);
 int						sub(t_string *string, int i, char *s, int zero);
 
 /*
