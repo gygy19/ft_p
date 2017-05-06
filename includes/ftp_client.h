@@ -77,6 +77,7 @@ typedef struct			s_socket_client
 	int					(*send)();
 	char				*(*serialize)(const char *, ...);
 	char				*message;
+	char				*pwd;
 }						t_socket_client;
 
 /*

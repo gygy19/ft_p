@@ -32,11 +32,13 @@ typedef struct  s_upload
   size_t        maxPart;
   size_t        type;
   char          *dest;
+  char          *part;
+  size_t        partsize;
 }               t_upload;
 
 t_upload        *loadnewUpload(char *filename, char *path);
 t_upload        *loadnewDownload(char *filename, char *infos);
-char            *uploadPart(t_upload *upload);
+BOOLEAN         uploadPart(t_upload *upload);
 void            downloadPart(t_upload *download, char *part, size_t size);
 
 #endif

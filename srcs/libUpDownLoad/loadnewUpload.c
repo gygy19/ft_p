@@ -33,5 +33,7 @@ t_upload        *loadnewUpload(char *filename, char *path)
   upload->offset = 0;
   upload->type = UPLOAD;
   upload->dest = NULL;
+  if (upload->maxPart == 0 && upload->size > 0)
+    upload->maxPart = 1;
   return (upload);
 }

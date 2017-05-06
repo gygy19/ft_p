@@ -29,7 +29,23 @@ t_socket_client	*load_struct_socket_client(void)
 	return (client);
 }
 
-int				main(int argc, char **argv)
+void			loadPwd(t_socket_client *client, char **env)
+{
+	int 	i;
+	char	**split;
+
+	i = 0;
+	while (env[i])
+	{
+		split = ft_split_string(env[i], "=");
+			if (ft_strcmp(split[0], "PWD") == 0)
+				client->pwd = ft_strdup(split[1]);
+		free_array(split);
+		i++;
+	}
+}
+
+int				main(int argc, char **argv, char **env)
 {
 	t_socket_client *client;
 
@@ -43,6 +59,7 @@ int				main(int argc, char **argv)
 		loadMapOfCommands(client);
 		loadProtocolsMessagesReceived(client);
 		load_termios_console();
+		loadPwd(client, env);
 		if (gethostbyname(argv[1]) && open_socket_connection(client, argv[1], ft_atoi(argv[2])))
 		{
 			print_prompt(client);

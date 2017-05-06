@@ -13,26 +13,30 @@
 #include "ftp_upload.h"
 #include "libfile.h"
 
-char            *uploadPart(t_upload *upload)
+BOOLEAN uploadPart(t_upload *upload)
 {
   int   fd;
   void  *ptr;
-  char  *part;
   int   len;
 
   if (!file_exists(upload->path))
-    return (NULL);
+    return (false);
   len = 1000;
   upload->currentPart++;
   if (upload->currentPart > upload->maxPart)
-    return (NULL);
+    return (false);
   if (upload->currentPart == upload->maxPart)
     len = upload->size - (1000 * upload->maxPart);
   if (len <= 0)
-    return (ft_strdup(""));
+  {
+    upload->part = ft_strdup("");
+    upload->partsize = 0;
+    return (true);
+  }
   fd = open(upload->path, O_RDONLY);
   ptr = mmap(0, len, PROT_READ, MAP_SHARED, fd, upload->offset);
-  part = ft_strndup((char*)ptr, len);
+  upload->part = ft_strndup((char*)ptr, len);
   munmap(ptr, upload->maxPart);
-  return (part);
+  upload->partsize = len;
+  return (true);
 }
