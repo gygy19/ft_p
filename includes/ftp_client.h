@@ -27,6 +27,7 @@
 
 # include "ftp_ProtocolMessages.h"
 # include "ftp_CommandHooker.h"
+# include "ftp_upload.h"
 
 # define EPROTONOSUPPORT 93
 # define EAFNOSUPPORT    97
@@ -78,6 +79,8 @@ typedef struct			s_socket_client
 	char				*(*serialize)(const char *, ...);
 	char				*message;
 	char				*pwd;
+	t_upload		*upload;
+	t_upload		*download;
 }						t_socket_client;
 
 /*
@@ -156,12 +159,14 @@ static const t_CommandHooker arrayClientCommands[ARRAY_CLIENT_COMMANDS_SIZE] = {
 void 			loadProtocolsMessagesReceived(t_socket_client *client);
 BOOLEAN   processReceivedTextProtocolMessage(t_socket_client *client, char *message);
 BOOLEAN   processReceivedDirectoryProtocolMessage(t_socket_client *client, char *message);
+BOOLEAN   processReceivedgetPartUploadProtocolMessage(t_socket_client *client, char *message);
 
-# define ARRAY_RECEIVED_MESSAGES_SIZE 2
+# define ARRAY_RECEIVED_MESSAGES_SIZE 3
 
 static const t_ProtocolMessage arrayProtocolMessagesReceived[ARRAY_RECEIVED_MESSAGES_SIZE] = {
 	{"TextMessage", 12, processReceivedTextProtocolMessage},
-	{"DirectoryInfos", 13, processReceivedDirectoryProtocolMessage}
+	{"DirectoryInfos", 13, processReceivedDirectoryProtocolMessage},
+	{"getPartUpload", 14, processReceivedgetPartUploadProtocolMessage}
 };
 
 /*

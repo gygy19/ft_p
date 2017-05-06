@@ -25,8 +25,12 @@ BOOLEAN uploadPart(t_upload *upload)
   upload->currentPart++;
   if (upload->currentPart > upload->maxPart)
     return (false);
-  if (upload->currentPart == upload->maxPart)
+  if (upload->size < 1000 && upload->currentPart == upload->maxPart)
+    len = upload->size;
+  else if (upload->currentPart == upload->maxPart)
+  {
     len = upload->size - (1000 * upload->maxPart);
+  }
   if (len <= 0)
   {
     upload->part = ft_strdup("");

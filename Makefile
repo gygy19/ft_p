@@ -49,6 +49,9 @@ SRCSERVER	=	\
 				srcs/server/message/received/cdProtocolMessage.c	\
 				srcs/server/message/received/pwdProtocolMessage.c	\
 				srcs/server/message/received/lsProtocolMessage.c	\
+				srcs/server/message/received/getFileProtocolMessage.c	\
+				srcs/server/message/received/putFileProtocolMessage.c	\
+				srcs/server/message/received/DownloadPartProtocolMessage.c	\
 				srcs/xor/xor.c																		\
 				srcs/xor/hexa_xor.c																\
 				srcs/libfile/file_exists.c												\
@@ -84,6 +87,7 @@ SRCCLIENT	=	\
 				srcs/client/message/send/putFileProtocolMessage.c	\
 				srcs/client/message/received/textProtocolMessage.c\
 				srcs/client/message/received/directoryProtocolMessage.c\
+				srcs/client/message/received/getPartUploadProtocolMessage.c\
 				srcs/client/lib/handler.c													\
 				srcs/client/lib/socket.c													\
 				srcs/client/window/size.c													\

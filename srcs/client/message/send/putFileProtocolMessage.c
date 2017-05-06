@@ -49,7 +49,8 @@ BOOLEAN   processSendputFileProtocolMessage(t_socket_client *client, char **spli
   if (upload != NULL)
   {
     ft_printf("Upload -> %s, part[%d/%d](%doctet) path(\"%s\")\n", upload->filename, upload->currentPart, upload->maxPart, upload->size, upload->path);
-    client->send(client, client->serialize("%c%s", 104, split[1]));
+    client->send(client, client->serialize("%c%s|%s|%d", 104, upload->filename, upload->path, upload->size));
+    client->upload = upload;
   }
   else
   {

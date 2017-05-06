@@ -24,6 +24,7 @@
 # include <unistd.h>
 
 # include "ftp_ProtocolMessages.h"
+# include "ftp_upload.h"
 
 # define EPROTONOSUPPORT 93
 # define EAFNOSUPPORT    97
@@ -51,6 +52,8 @@ typedef struct				s_client
 	char								*pwd;
 	char								*oldpwd;
 	char								*home;
+	t_upload						*upload;
+	t_upload						*download;
 }											t_client;
 
 typedef struct			s_socket_server
@@ -102,13 +105,19 @@ int						received_message(t_socket_server *server,\
 BOOLEAN   processReceivedcdProtocolMessage(t_socket_server *server, t_client *client, char *message);
 BOOLEAN   processReceivedpwdProtocolMessage(t_socket_server *server, t_client *client, char *message);
 BOOLEAN   processReceivedlsProtocolMessage(t_socket_server *server, t_client *client, char *message);
+BOOLEAN   processReceivedgetFileProtocolMessage(t_socket_server *server, t_client *client, char *message);
+BOOLEAN   processReceivedputFileProtocolMessage(t_socket_server *server, t_client *client, char *message);
+BOOLEAN   processReceivedDownloadPartProtocolMessage(t_socket_server *server, t_client *client, char *message);
 
-# define ARRAY_RECEIVED_MESSAGES_SIZE 3
+# define ARRAY_RECEIVED_MESSAGES_SIZE 6
 
 static const t_ProtocolMessage arrayProtocolMessagesReceived[ARRAY_RECEIVED_MESSAGES_SIZE] = {
 	{"cd", 100, processReceivedcdProtocolMessage},
 	{"pwd", 101, processReceivedpwdProtocolMessage},
-	{"ls", 102, processReceivedlsProtocolMessage}
+	{"ls", 102, processReceivedlsProtocolMessage},
+	{"get", 103, processReceivedgetFileProtocolMessage},
+	{"put", 104, processReceivedputFileProtocolMessage},
+	{"downloadPart", 105, processReceivedDownloadPartProtocolMessage}
 };
 
 void loadProtocolsMessagesReceived(t_socket_server *server);

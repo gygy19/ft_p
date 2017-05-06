@@ -30,7 +30,5 @@ t_upload        *loadnewDownload(char *filename, char *infos)//infos == 'path|si
   upload->type = DOWNLOAD;
   upload->dest = ft_strdup(split[2]);
   free_array(split);
-  if (upload->maxPart == 0 && upload->size > 0)
-    upload->maxPart = 1;
   return (upload);
 }
