@@ -68,13 +68,26 @@ static void printInformations(t_upload *upload)
 
 static void printPurcentage(t_socket_client *client, t_upload *upload)
 {
-  ft_putstr("\033[u\033[K");
+  char  *rg;
+  int   pur;
+  int   i;
+
+  (void)client;
   printInformations(upload);
   printFileType(upload);
   ft_printf("\n\n");
-  ft_printf("(%d%%/100%%)\n", (100 * upload->offset) / upload->size);
   ft_putstr("\033[s");
-  reprint_line(client);
+  pur = (30 * upload->offset) / upload->size;
+  rg = ft_strnew(pur);
+  i = 0;
+  while (i < pur)
+  {
+    rg[i] = '=';
+    if (i == 30)
+      rg[i] = '>';
+    i++;
+  }
+  ft_printf("%-3d%%[%-30s]\n", (100 * upload->offset) / upload->size, rg);
 }
 
 BOOLEAN   processSendputFileProtocolMessage(t_socket_client *client, char **split)
