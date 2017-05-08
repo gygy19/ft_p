@@ -48,6 +48,7 @@ typedef struct				s_client
 	int									(*send)();
 	char								*(*serialize)(const char *, ...);
 	char								*message;
+	size_t							packetLength;
 	struct sockaddr_in	in;
 	char								*pwd;
 	char								*oldpwd;
@@ -112,12 +113,12 @@ BOOLEAN   processReceivedDownloadPartProtocolMessage(t_socket_server *server, t_
 # define ARRAY_RECEIVED_MESSAGES_SIZE 6
 
 static const t_ProtocolMessage arrayProtocolMessagesReceived[ARRAY_RECEIVED_MESSAGES_SIZE] = {
-	{"cd", 100, processReceivedcdProtocolMessage},
-	{"pwd", 101, processReceivedpwdProtocolMessage},
-	{"ls", 102, processReceivedlsProtocolMessage},
-	{"get", 103, processReceivedgetFileProtocolMessage},
-	{"put", 104, processReceivedputFileProtocolMessage},
-	{"downloadPart", 105, processReceivedDownloadPartProtocolMessage}
+	{"cd", 100, processReceivedcdProtocolMessage, 0},
+	{"pwd", 101, processReceivedpwdProtocolMessage, 0},
+	{"ls", 102, processReceivedlsProtocolMessage, 0},
+	{"get", 103, processReceivedgetFileProtocolMessage, 0},
+	{"put", 104, processReceivedputFileProtocolMessage, 0},
+	{"downloadPart", 105, processReceivedDownloadPartProtocolMessage, 0}
 };
 
 void loadProtocolsMessagesReceived(t_socket_server *server);
@@ -126,7 +127,7 @@ void loadProtocolsMessagesReceived(t_socket_server *server);
 # define ARRAY_SEND_MESSAGES_SIZE 1
 
 static const t_ProtocolMessage arrayProtocolMessagesSend[ARRAY_SEND_MESSAGES_SIZE] = {
-	{"cd", 100, NULL}
+	{"cd", 100, NULL, 0}
 };
 
 #endif

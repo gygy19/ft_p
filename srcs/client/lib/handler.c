@@ -44,17 +44,16 @@ int			send_message(t_socket_client *client, char *message)
 {
 	int		r;
 	char	*crypted;
-	char	*print;
+	int		length;
 
 	if (message == NULL || ft_strlen(message) <= 0)
 		return (0);
 	message = ft_dstrjoin_char(message, '\n', 1);
 	crypted = crypt_string_to_xor(message);
-	print = print_crypted(crypted);
-	message[ft_strlen(message) - 1] = '\0';
-	r = send(client->sockfd, crypted, ft_strlen(crypted), 0);
+	length = ft_strlen(crypted);
+	r = send(client->sockfd, &length, sizeof(int), 0);
+	r = send(client->sockfd, crypted, length, 0);
 	ft_strdel(&message);
-	ft_strdel(&print);
 	ft_strdel(&crypted);
 	return (!(r < 0));
 }
@@ -74,14 +73,12 @@ void		server_disconnect(t_socket_client *client)
 	reprint_line(client);
 }
 
-static void	read_new_message(t_socket_client *client)
+static void	read_message(t_socket_client *client, int packetLength)
 {
 	size_t	ret;
-	char	buffer[1 + 1];
 
-	ret = recv(client->sockfd, buffer, 1, 0);
-	buffer[ret] = '\0';
-	client->message = ft_dstrjoin(client->message, buffer, 1);
+	client->message = ft_strnew(packetLength);
+	ret = recv(client->sockfd, client->message, packetLength, 0);
 	if (ft_strlen(client->message) == 0)
 	{
 		server_disconnect(client);
@@ -91,10 +88,25 @@ static void	read_new_message(t_socket_client *client)
 	}
 }
 
+static void	read_new_message(t_socket_client *client)
+{
+	size_t	ret;
+	int		packetLength;
+
+	if (!(ret = recv(client->sockfd, &packetLength, sizeof(int), 0)))
+	{
+		server_disconnect(client);
+		ft_strdel(&client->message);
+		client->message = NULL;
+		return ;
+	}
+	read_message(client, packetLength);
+}
+
 void		received_message(t_socket_client *client)
 {
 	char	*uncrypted;
-	char	*print;
+	char	*message;
 
 	read_new_message(client);
 	if (client->message == NULL)
@@ -102,10 +114,9 @@ void		received_message(t_socket_client *client)
 	uncrypted = uncrypt_xor_to_string(client->message);
 	if (uncrypted[ft_strlen(uncrypted) - 1] != '\n')
 		return ;
-	uncrypted[ft_strlen(uncrypted) - 1] = '\0';
-	print = print_crypted(client->message);
-	data_processor(client, uncrypted);
-	ft_strdel(&print);
+	message = ft_strndup(uncrypted, ft_strlen(uncrypted) - 1);
+	data_processor(client, message);
+	ft_strdel(&message);
 	ft_strdel(&uncrypted);
 	ft_strdel(&client->message);
 	client->message = NULL;

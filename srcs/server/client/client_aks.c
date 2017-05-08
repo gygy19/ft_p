@@ -17,11 +17,13 @@ int			send_message(t_client *client, char *message)
 {
 	int		r;
 	char	*crypted;
+	int		length;
 
 	message = ft_dstrjoin_char(message, '\n', 1);
 	crypted = crypt_string_to_xor(message);
-	message[ft_strlen(message) - 1] = '\0';
-	r = send(client->fd, crypted, ft_strlen(crypted), 0);
+	length = ft_strlen(crypted);
+	r = send(client->fd, &length, sizeof(int), 0);
+	r = send(client->fd, crypted, length, 0);
 	ft_strdel(&message);
 	ft_strdel(&crypted);
 	return (!(r < 0));
@@ -30,15 +32,21 @@ int			send_message(t_client *client, char *message)
 static int	read_new_message(t_client *client)
 {
 	size_t	ret;
-	char	buffer[1 + 1];
+	int		packetLength;
 
-	ret = recv(client->fd, buffer, 1, 0);
-	buffer[ret] = '\0';
-	if (client->message == NULL)
-		client->message = ft_strdup(buffer);
-	else
-		client->message = ft_dstrjoin(client->message, buffer, 1);
-	return (buffer[0] != '\0');
+	if (!(ret = recv(client->fd, &packetLength, sizeof(int), 0)))
+		return (0);
+	if (packetLength <= 0 || packetLength > 100000000)
+		return (0);
+	client->message = ft_strnew(packetLength);
+	ret = recv(client->fd, client->message, packetLength, 0);
+	if (ft_strlen(client->message) <= 0)
+	{
+		ft_strdel(&client->message);
+		client->message = NULL;
+		return (0);
+	}
+	return (1);
 }
 
 int			received_message(t_socket_server *server, t_client *client)
@@ -56,7 +64,7 @@ int			received_message(t_socket_server *server, t_client *client)
 		ntohs(client->in.sin_port),\
 		uncrypted[0]);
 	server->data_processor(server, client, uncrypted);
-	ft_strdel(&uncrypted);
+	//ft_strdel(&uncrypted);
 	ft_strdel(&client->message);
 	client->message = NULL;
 	return (1);

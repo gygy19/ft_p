@@ -12,6 +12,7 @@
 
 #include "ftp_upload.h"
 #include "libfile.h"
+#include "printf.h"
 
 t_upload        *loadnewUpload(char *filename, char *path)
 {
@@ -29,11 +30,18 @@ t_upload        *loadnewUpload(char *filename, char *path)
   upload->path = ft_strdup(path);
   upload->filename = ft_strdup(filename);
   upload->currentPart = 0;
-  upload->maxPart = (100 * upload->size) / 1000;
+  upload->maxPart = getMaxPart(upload);
   upload->offset = 0;
   upload->type = UPLOAD;
   upload->dest = NULL;
-  if (upload->maxPart == 0 && upload->size > 0)
-    upload->maxPart = 1;
+  upload->part = NULL;
+  int fd;
+  void *ptr;
+
+  fd = open(upload->path, O_RDONLY);
+  ptr = mmap(0, upload->size, PROT_READ, MAP_SHARED, fd, 0);
+  upload->content = ft_strnew(upload->size);
+  ft_memcpy(upload->content, ptr, upload->size);
+  munmap(ptr, upload->size);
   return (upload);
 }

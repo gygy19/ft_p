@@ -1,28 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ftp_ProtocolMessages.h                             :+:      :+:    :+:   */
+/*   ft_strcontains.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jguyet <jguyet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/05/04 17:24:51 by jguyet            #+#    #+#             */
-/*   Updated: 2017/05/04 17:24:53 by jguyet           ###   ########.fr       */
+/*   Created: 2017/05/08 19:40:45 by jguyet            #+#    #+#             */
+/*   Updated: 2017/05/08 19:40:47 by jguyet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef IRC_PROTOCOLMESSAGES_H
-# define IRC_PROTOCOLMESSAGES_H
+#include "libft.h"
 
-# include <libft.h>
-
-# define MAX_PROTOCOL_MESSAGE_LENGTH 20
-
-typedef struct				s_ProtocolMessage
+BOOLEAN		ft_strcontains(char const *src, char const *srh)
 {
-  char					name[MAX_PROTOCOL_MESSAGE_LENGTH];
-	int					  key;
-  BOOLEAN       (*execute)();
-  BOOLEAN       reprintPrompt;
-}                     t_ProtocolMessage;
+	int		i;
 
-#endif
+	i = 0;
+	while (src[i])
+	{
+		if (ft_strcmp(src + i, srh) == 0)
+		  return (true);
+		i++;
+	}
+	return (false);
+}

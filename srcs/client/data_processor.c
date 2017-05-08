@@ -18,15 +18,20 @@ void		data_processor(t_socket_client *client, char *message)
 	char							*finalmessage;
 	t_ProtocolMessage	*protocolMessage;
 
-	ft_putstr("\033[u");
-	ft_putstr("\033[K");
 	packetId = message[0];
 	finalmessage = ft_strsub(message, 1, ft_strlen(message));
 	protocolMessage = (t_ProtocolMessage*)client->messagesReceivedMap->get(client->messagesReceivedMap, packetId);
 	if (protocolMessage != NULL)
+	{
+		if (protocolMessage->reprintPrompt)
+			ft_putstr("\033[u\033[K");
 		protocolMessage->execute(client, finalmessage);
+		if (protocolMessage->reprintPrompt)
+		{
+			ft_putstr("\033[s");
+			reprint_line(client);
+		}
+	}
 	if (finalmessage != NULL)
 		ft_strdel(&finalmessage);
-	ft_putstr("\033[s");
-	reprint_line(client);
 }

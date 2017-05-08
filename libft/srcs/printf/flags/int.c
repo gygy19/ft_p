@@ -35,6 +35,7 @@ char		*flag_int(t_string *string, short base)
 {
 	int		tmp;
 
+	string->is_negative = 0;
 	tmp = get_int(string);
 	if (tmp == -2147483648)
 		return (min_int(string, base));

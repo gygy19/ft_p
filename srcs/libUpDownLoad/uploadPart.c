@@ -15,32 +15,25 @@
 
 BOOLEAN uploadPart(t_upload *upload)
 {
-  int   fd;
-  void  *ptr;
   int   len;
 
   if (!file_exists(upload->path))
     return (false);
-  len = 1000;
+  len = getsize(upload);
   upload->currentPart++;
   if (upload->currentPart > upload->maxPart)
     return (false);
-  if (upload->size < 1000 && upload->currentPart == upload->maxPart)
-    len = upload->size;
-  else if (upload->currentPart == upload->maxPart)
-  {
-    len = upload->size - (1000 * upload->maxPart);
-  }
+  if (upload->currentPart == upload->maxPart)
+    len = upload->size - upload->offset;
   if (len <= 0)
   {
     upload->part = ft_strdup("");
     upload->partsize = 0;
     return (true);
   }
-  fd = open(upload->path, O_RDONLY);
-  ptr = mmap(0, len, PROT_READ, MAP_SHARED, fd, upload->offset);
-  upload->part = ft_strndup((char*)ptr, len);
-  munmap(ptr, upload->maxPart);
+  upload->part = ft_strnew(len);
+  ft_memcpy(upload->part, upload->content + upload->offset, len);
+  upload->offset += len;
   upload->partsize = len;
   return (true);
 }

@@ -164,9 +164,9 @@ BOOLEAN   processReceivedgetPartUploadProtocolMessage(t_socket_client *client, c
 # define ARRAY_RECEIVED_MESSAGES_SIZE 3
 
 static const t_ProtocolMessage arrayProtocolMessagesReceived[ARRAY_RECEIVED_MESSAGES_SIZE] = {
-	{"TextMessage", 12, processReceivedTextProtocolMessage},
-	{"DirectoryInfos", 13, processReceivedDirectoryProtocolMessage},
-	{"getPartUpload", 14, processReceivedgetPartUploadProtocolMessage}
+	{"TextMessage", 12, processReceivedTextProtocolMessage, true},
+	{"DirectoryInfos", 13, processReceivedDirectoryProtocolMessage, true},
+	{"getPartUpload", 14, processReceivedgetPartUploadProtocolMessage, false}
 };
 
 /*

@@ -26,6 +26,7 @@ typedef struct  s_upload
 {
   char          *filename;
   char          *path;
+  char          *content;
   size_t        size;
   size_t        offset;
   size_t        currentPart;
@@ -40,5 +41,8 @@ t_upload        *loadnewUpload(char *filename, char *path);
 t_upload        *loadnewDownload(char *filename, char *infos);
 BOOLEAN         uploadPart(t_upload *upload);
 void            downloadPart(t_upload *download, char *part, size_t size);
+
+int             getsize(t_upload *upload);
+int             getMaxPart(t_upload *upload);
 
 #endif

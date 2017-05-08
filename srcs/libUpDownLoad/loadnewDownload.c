@@ -17,7 +17,9 @@ t_upload        *loadnewDownload(char *filename, char *infos)//infos == 'path|si
 {
   t_upload    *upload;
   char        **split;
+  int         fileid;
 
+  fileid = 0;
   split = ft_split_string(infos, "|");
   if (!(upload = (t_upload*)malloc(sizeof(t_upload))))
     return (NULL);
@@ -25,12 +27,15 @@ t_upload        *loadnewDownload(char *filename, char *infos)//infos == 'path|si
   upload->path = ft_strdup(split[0]);
   upload->filename = ft_strdup(filename);
   upload->currentPart = 0;
-  upload->maxPart = (100 * upload->size) / 1000;
+  upload->maxPart = getMaxPart(upload);
   upload->offset = 0;
   upload->type = DOWNLOAD;
   upload->dest = ft_strdup(split[2]);
+  while (file_exists(upload->dest))
+  {
+    ft_strdel(&upload->dest);
+    upload->dest = ft_dstrjoin(ft_strdup(split[2]), ft_dstrjoin("(", ft_dstrjoin(ft_itoa(++fileid), ")", 1), 2), 3);
+  }
   free_array(split);
-  if (upload->maxPart == 0 && upload->size > 0)
-    upload->maxPart = 1;
   return (upload);
 }

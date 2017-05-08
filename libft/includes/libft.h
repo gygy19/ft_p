@@ -121,6 +121,7 @@ unsigned int		ft_lenbychar(char *s, char c);
 char				*ft_replace(char *str, char *old, char *new);
 char				*ft_strdelandnew(char **del, int size);
 int					ft_is_string_printable(char *str);
+BOOLEAN			ft_strcontains(char const *src, char const *srh);
 
 /*
 ** LST
