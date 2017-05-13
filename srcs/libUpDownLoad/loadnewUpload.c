@@ -14,7 +14,7 @@
 #include "libfile.h"
 #include "printf.h"
 
-t_upload        *loadnewUpload(char *filename, char *path)
+t_upload        *loadnewupload(char *filename, char *path)
 {
   struct stat buf;
   t_upload    *upload;
@@ -30,7 +30,7 @@ t_upload        *loadnewUpload(char *filename, char *path)
   upload->path = ft_strdup(path);
   upload->filename = ft_strdup(filename);
   upload->currentPart = 0;
-  upload->maxPart = getMaxPart(upload);
+  upload->maxPart = getmaxpart(upload);
   upload->offset = 0;
   upload->type = UPLOAD;
   upload->dest = NULL;

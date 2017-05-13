@@ -70,15 +70,15 @@ void		server_disconnect(t_socket_client *client)
 	client->host = NULL;
 	client->events[1].fd = 0;
 	client->events[1].read = read_keys;
-	reprint_line(client);
+	reprint_line(client, true);
 }
 
-static void	read_message(t_socket_client *client, int packetLength)
+static void	read_message(t_socket_client *client, int packetlength)
 {
 	size_t	ret;
 
-	client->message = ft_strnew(packetLength);
-	ret = recv(client->sockfd, client->message, packetLength, 0);
+	client->message = ft_strnew(packetlength);
+	ret = recv(client->sockfd, client->message, packetlength, 0);
 	if (ft_strlen(client->message) == 0)
 	{
 		server_disconnect(client);
@@ -91,16 +91,16 @@ static void	read_message(t_socket_client *client, int packetLength)
 static void	read_new_message(t_socket_client *client)
 {
 	size_t	ret;
-	int		packetLength;
+	int		packetlength;
 
-	if (!(ret = recv(client->sockfd, &packetLength, sizeof(int), 0)))
+	if (!(ret = recv(client->sockfd, &packetlength, sizeof(int), 0)))
 	{
 		server_disconnect(client);
 		ft_strdel(&client->message);
 		client->message = NULL;
 		return ;
 	}
-	read_message(client, packetLength);
+	read_message(client, packetlength);
 }
 
 void		received_message(t_socket_client *client)

@@ -12,16 +12,18 @@
 
 #include "ftp_client.h"
 
-void loadMapOfCommands(t_socket_client *client)
+void loadmapofcommands(t_socket_client *client)
 {
-  int i;
+	int i;
 
-  i = 0;
-  client->commandsMap = newstringhashmap(10);
-  while (i < ARRAY_CLIENT_COMMANDS_SIZE)
-  {
-    ft_printf("%s, %d\n", arrayClientCommands[i].name, arrayClientCommands[i].key);
-    client->commandsMap->add(client->commandsMap, arrayClientCommands[i].name, &arrayClientCommands[i]);
-    i++;
-  }
+	i = 0;
+	client->commandsMap = newstringhashmap(10);
+	while (i < ARRAY_CLIENT_COMMANDS_SIZE)
+	{
+		ft_printf("%s, %d\n", arrayclientcommands[i].name,\
+			arrayclientcommands[i].key);
+		client->commandsMap->add(client->commandsMap,\
+			arrayclientcommands[i].name, &arrayclientcommands[i]);
+		i++;
+	}
 }

@@ -47,9 +47,10 @@ void			print_prompt(t_socket_client *client)
 		ft_printf("{color32}<ft_p>{reset} {color228}\u2A20{reset} ");
 }
 
-void			reprint_line(t_socket_client *client)
+void			reprint_line(t_socket_client *client, BOOLEAN save)
 {
-	ft_putstr("\033[s");
+	if (save)
+		ft_putstr("\033[s");
 	if (client->host != NULL)
 	{
 		ft_printf("{color71}<FTP[%s:%d]>{reset} {color34}",\

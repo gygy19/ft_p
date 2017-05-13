@@ -42,8 +42,8 @@ void			move_cursor_to_keycode_dir(t_socket_client *client,\
 		move_cursor_left(client);
 	if (key == 12 && ft_strlen(keys) == 1)
 	{
-		ft_printf("\033[2J\033[%d;0f\033[s", get_size_y());
-		reprint_line(client);
+		ft_printf("\033[2J\033[%d;0f", get_size_y());
+		reprint_line(client, true);
 	}
 }
 

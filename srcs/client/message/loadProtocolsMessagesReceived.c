@@ -12,20 +12,21 @@
 
 #include "ftp_client.h"
 
-void loadProtocolsMessagesReceived(t_socket_client *client)
+void	loadprotocolsmessagesreceived(t_socket_client *client)
 {
-  int i;
+	int	i;
 
-  i = 0;
-  (void)i;
-  (void)client;
-  client->messagesReceivedMap = newintegerhashmap(10);
-  while (i < ARRAY_RECEIVED_MESSAGES_SIZE)
-  {
-    ft_printf("%s, %d\n", arrayProtocolMessagesReceived[i].name,\
-      arrayProtocolMessagesReceived[i].key);
-    client->messagesReceivedMap->add(client->messagesReceivedMap,\
-      arrayProtocolMessagesReceived[i].key, &arrayProtocolMessagesReceived[i]);
-    i++;
-  }
+	i = 0;
+	(void)i;
+	(void)client;
+	client->messagesReceivedMap = newintegerhashmap(10);
+	while (i < ARRAY_RECEIVED_MESSAGES_SIZE)
+	{
+		ft_printf("%s, %d\n", arrayprotocolmessagesreceived[i].name,\
+			arrayprotocolmessagesreceived[i].key);
+		client->messagesReceivedMap->add(client->messagesReceivedMap,\
+			arrayprotocolmessagesreceived[i].key,\
+			&arrayprotocolmessagesreceived[i]);
+		i++;
+	}
 }

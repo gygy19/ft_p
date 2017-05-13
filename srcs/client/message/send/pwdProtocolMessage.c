@@ -12,9 +12,9 @@
 
 #include "ftp_client.h"
 
-BOOLEAN   processSendpwdProtocolMessage(t_socket_client *client, char **split)
+BOOLEAN	processsendpwdprotocolmessage(t_socket_client *client, char **split)
 {
-  (void)split;
-  client->send(client, client->serialize("%c", 101));
-  return (true);
+	(void)split;
+	client->send(client, client->serialize("%c", 101));
+	return (true);
 }

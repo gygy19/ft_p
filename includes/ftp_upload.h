@@ -22,27 +22,27 @@
 # define UPLOAD 1
 # define DOWNLOAD 2
 
-typedef struct  s_upload
+typedef struct	s_upload
 {
-  char          *filename;
-  char          *path;
-  char          *content;
-  size_t        size;
-  size_t        offset;
-  size_t        currentPart;
-  size_t        maxPart;
-  size_t        type;
-  char          *dest;
-  char          *part;
-  size_t        partsize;
-}               t_upload;
+	char		*filename;
+	char		*path;
+	char		*content;
+	size_t		size;
+	size_t		offset;
+	size_t		currentPart;
+	size_t		maxPart;
+	size_t		type;
+	char		*dest;
+	char		*part;
+	size_t		partsize;
+}				t_upload;
 
-t_upload        *loadnewUpload(char *filename, char *path);
-t_upload        *loadnewDownload(char *filename, char *infos);
-BOOLEAN         uploadPart(t_upload *upload);
-void            downloadPart(t_upload *download, char *part, size_t size);
+t_upload		*loadnewupload(char *filename, char *path);
+t_upload		*loadnewdownload(char *filename, char *infos);
+BOOLEAN			uploadpart(t_upload *upload);
+void			downloadpart(t_upload *download, char *part, size_t size);
 
-int             getsize(t_upload *upload);
-int             getMaxPart(t_upload *upload);
+int				getsize(t_upload *upload);
+int				getmaxpart(t_upload *upload);
 
 #endif

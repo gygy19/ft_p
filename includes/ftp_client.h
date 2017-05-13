@@ -25,8 +25,8 @@
 # include <unistd.h>
 # include <netdb.h>
 
-# include "ftp_ProtocolMessages.h"
-# include "ftp_CommandHooker.h"
+# include "ftp_protocolmessage.h"
+# include "ftp_commandHooker.h"
 # include "ftp_upload.h"
 
 # define EPROTONOSUPPORT 93
@@ -73,8 +73,8 @@ typedef struct			s_socket_client
 	struct s_events		events[2];
 	struct s_cmds		*cmds;
 	struct s_cmds		*current_cmd;
-	struct s_hashmap *commandsMap;
-	struct s_hashmap *messagesReceivedMap;
+	struct s_hashmap	*commandsMap;
+	struct s_hashmap	*messagesReceivedMap;
 	int					(*send)();
 	char				*(*serialize)(const char *, ...);
 	char				*message;
@@ -126,7 +126,7 @@ void					use_history_command(t_socket_client *client);
 ** prompt
 */
 void					restart_line(void);
-void					reprint_line(t_socket_client *client);
+void					reprint_line(t_socket_client *client, BOOLEAN save);
 void					print_prompt(t_socket_client *client);
 void					print_current_command(t_socket_client *client,\
 						int start);
@@ -134,39 +134,41 @@ void					print_current_command(t_socket_client *client,\
 /*
 ** Commands
 */
-void 			loadMapOfCommands(t_socket_client *client);
-BOOLEAN   processSendcdProtocolMessage(t_socket_client *client, char **split);
-BOOLEAN   processSendpwdProtocolMessage(t_socket_client *client, char **split);
-BOOLEAN   processSendlsProtocolMessage(t_socket_client *client, char **split);
-BOOLEAN   processSendgetFileProtocolMessage(t_socket_client *client, char **split);
-BOOLEAN   processSendputFileProtocolMessage(t_socket_client *client, char **split);
-BOOLEAN   processQuitCommand(t_socket_client *client, char **split);
+void 					loadmapofcommands(t_socket_client *client);
+BOOLEAN					processsendcdprotocolmessage(t_socket_client *client, char **split);
+BOOLEAN					processsendpwdprotocolmessage(t_socket_client *client, char **split);
+BOOLEAN					processsendlsprotocolmessage(t_socket_client *client, char **split);
+BOOLEAN					processsendgetfileprotocolmessage(t_socket_client *client, char **split);
+BOOLEAN					processsendputfileprotocolmessage(t_socket_client *client, char **split);
+BOOLEAN					processquitcommand(t_socket_client *client, char **split);
 
 # define ARRAY_CLIENT_COMMANDS_SIZE 6
 
-static const t_CommandHooker arrayClientCommands[ARRAY_CLIENT_COMMANDS_SIZE] = {
-	{"cd", 100, processSendcdProtocolMessage, 0},
-	{"pwd", 101, processSendpwdProtocolMessage, 0},
-	{"ls", 102, processSendlsProtocolMessage, 0},
-	{"get", 103, processSendgetFileProtocolMessage, 0},
-	{"put", 104, processSendputFileProtocolMessage, 0},
-	{"quit", 0, processQuitCommand, 0}
+static const t_CommandHooker arrayclientcommands[ARRAY_CLIENT_COMMANDS_SIZE] = {
+	{"cd", 100, processsendcdprotocolmessage, 0},
+	{"pwd", 101, processsendpwdprotocolmessage, 0},
+	{"ls", 102, processsendlsprotocolmessage, 0},
+	{"get", 103, processsendgetfileprotocolmessage, 0},
+	{"put", 104, processsendputfileprotocolmessage, 0},
+	{"quit", 0, processquitcommand, 0}
 };
 
 /*
 ** Messages
 */
-void 			loadProtocolsMessagesReceived(t_socket_client *client);
-BOOLEAN   processReceivedTextProtocolMessage(t_socket_client *client, char *message);
-BOOLEAN   processReceivedDirectoryProtocolMessage(t_socket_client *client, char *message);
-BOOLEAN   processReceivedgetPartUploadProtocolMessage(t_socket_client *client, char *message);
+void 					loadprotocolsmessagesreceived(t_socket_client *client);
+BOOLEAN   				processreceivedtextprotocolmessage(t_socket_client *client, char *message);
+BOOLEAN   				processreceiveddirectoryprotocolmessage(t_socket_client *client, char *message);
+BOOLEAN   				processreceivedgetpartuploadprotocolmessage(t_socket_client *client, char *message);
+BOOLEAN   				processreceivedgetpartdownloadprotocolmessage(t_socket_client *client, char *message);
 
-# define ARRAY_RECEIVED_MESSAGES_SIZE 3
+# define ARRAY_RECEIVED_MESSAGES_SIZE 4
 
-static const t_ProtocolMessage arrayProtocolMessagesReceived[ARRAY_RECEIVED_MESSAGES_SIZE] = {
-	{"TextMessage", 12, processReceivedTextProtocolMessage, true},
-	{"DirectoryInfos", 13, processReceivedDirectoryProtocolMessage, true},
-	{"getPartUpload", 14, processReceivedgetPartUploadProtocolMessage, false}
+static const t_ProtocolMessage arrayprotocolmessagesreceived[ARRAY_RECEIVED_MESSAGES_SIZE] = {
+	{"TextMessage", 12, processreceivedtextprotocolmessage, true},
+	{"DirectoryInfos", 13, processreceiveddirectoryprotocolmessage, true},
+	{"getPartUpload", 14, processreceivedgetpartuploadprotocolmessage, false},
+	{"DownloadPart", 104, processreceivedgetpartdownloadprotocolmessage, false}
 };
 
 /*

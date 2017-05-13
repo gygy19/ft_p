@@ -12,20 +12,21 @@
 
 #include "ftp_client.h"
 
-BOOLEAN   processReceivedDirectoryProtocolMessage(t_socket_client *client, char *message)
+BOOLEAN	processreceiveddirectoryprotocolmessage(t_socket_client *client,\
+	char *message)
 {
-  char    **split;
-  int     i;
+	char	**split;
+	int		i;
 
-  (void)client;
-  split = ft_split_string(message, "|");
-  i = 0;
-  if (array_length(split) <= 0)
-    return (false);
-  while (split[i])
-  {
-    ft_printf("%s\n", split[i]);
-    i++;
-  }
-  return (true);
+	(void)client;
+	split = ft_split_string(message, "|");
+	i = 0;
+	if (array_length(split) <= 0)
+		return (false);
+	while (split[i])
+	{
+		ft_printf("%s\n", split[i]);
+		i++;
+	}
+	return (true);
 }

@@ -14,23 +14,21 @@
 
 void		data_processor(t_socket_client *client, char *message)
 {
-	int								packetId;
+	int								packetid;
 	char							*finalmessage;
-	t_ProtocolMessage	*protocolMessage;
+	t_ProtocolMessage				*protocolmessage;
 
-	packetId = message[0];
+	packetid = message[0];
 	finalmessage = ft_strsub(message, 1, ft_strlen(message));
-	protocolMessage = (t_ProtocolMessage*)client->messagesReceivedMap->get(client->messagesReceivedMap, packetId);
-	if (protocolMessage != NULL)
+	protocolmessage = (t_ProtocolMessage*)client->messagesReceivedMap->get(\
+		client->messagesReceivedMap, packetid);
+	if (protocolmessage != NULL)
 	{
-		if (protocolMessage->reprintPrompt)
+		if (protocolmessage->reprintPrompt)
 			ft_putstr("\033[u\033[K");
-		protocolMessage->execute(client, finalmessage);
-		if (protocolMessage->reprintPrompt)
-		{
-			ft_putstr("\033[s");
-			reprint_line(client);
-		}
+		protocolmessage->execute(client, finalmessage);
+		if (protocolmessage->reprintPrompt)
+			reprint_line(client, true);
 	}
 	if (finalmessage != NULL)
 		ft_strdel(&finalmessage);

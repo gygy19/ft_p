@@ -17,12 +17,12 @@
 
 # define MAX_PROTOCOL_MESSAGE_LENGTH 20
 
-typedef struct				s_ProtocolMessage
+typedef struct			s_ProtocolMessage
 {
-  char					name[MAX_PROTOCOL_MESSAGE_LENGTH];
-	int					  key;
-  BOOLEAN       (*execute)();
-  BOOLEAN       reprintPrompt;
-}                     t_ProtocolMessage;
+	char				name[MAX_PROTOCOL_MESSAGE_LENGTH];
+	int					key;
+	BOOLEAN				(*execute)();
+	BOOLEAN				reprintPrompt;
+}						t_ProtocolMessage;
 
 #endif

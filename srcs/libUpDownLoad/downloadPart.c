@@ -14,7 +14,7 @@
 #include "libfile.h"
 #include "printf.h"
 
-void    downloadPart(t_upload *upload, char *part, size_t size)
+void    downloadpart(t_upload *upload, char *part, size_t size)
 {
   int   fd;
 

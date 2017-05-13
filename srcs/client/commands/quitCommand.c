@@ -12,11 +12,11 @@
 
 #include "ftp_client.h"
 
-BOOLEAN   processQuitCommand(t_socket_client *client, char **split)
+BOOLEAN	processquitcommand(t_socket_client *client, char **split)
 {
-  (void)split;
-  (void)client;
-  ft_printf("Connection Closed\n");
-  exit(0);
-  return (true);
+	(void)split;
+	(void)client;
+	ft_printf("Connection Closed\n");
+	exit(0);
+	return (true);
 }

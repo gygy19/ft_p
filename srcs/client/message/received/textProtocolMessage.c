@@ -12,9 +12,10 @@
 
 #include "ftp_client.h"
 
-BOOLEAN   processReceivedTextProtocolMessage(t_socket_client *client, char *message)
+BOOLEAN	processreceivedtextprotocolmessage(t_socket_client *client,\
+	char *message)
 {
-  (void)client;
-  ft_printf("%s", message);
-  return (true);
+	(void)client;
+	ft_printf("%s", message);
+	return (true);
 }

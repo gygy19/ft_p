@@ -12,10 +12,10 @@
 
 #include "ftp_client.h"
 
-BOOLEAN   processSendgetFileProtocolMessage(t_socket_client *client, char **split)
+BOOLEAN	processsendgetfileprotocolmessage(t_socket_client *client, char **split)
 {
-  if (array_length(split) <= 1)
-    return (false);
-  client->send(client, client->serialize("%c%s", 103, split[1]));
-  return (true);
+	if (array_length(split) <= 1)
+		return (false);
+	client->send(client, client->serialize("%c%s", 103, split[1]));
+	return (true);
 }

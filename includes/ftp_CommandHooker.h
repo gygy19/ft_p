@@ -21,8 +21,8 @@ typedef struct						s_CommandHooker
 {
 	char					name[MAX_COMMAND_LENGTH];
 	int						key;
-	BOOLEAN       (*execute)();
-	size_t				args_Min;
-}                         t_CommandHooker;
+	BOOLEAN					(*execute)();
+	size_t					args_Min;
+}							t_CommandHooker;
 
 #endif

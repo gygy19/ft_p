@@ -119,7 +119,7 @@ void			read_keys(t_socket_client *client)
 		switch_command(client, client->current_cmd->cmd);
 		client->current_cmd->cursor_pos = 0;
 		client->current_cmd = new_command(client);
-		reprint_line(client);
+		reprint_line(client, true);
 	}
 	else
 		move_cursor_to_keycode_dir(client, key, keys);

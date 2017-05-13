@@ -13,7 +13,7 @@
 #include "ftp_upload.h"
 #include "libfile.h"
 
-BOOLEAN uploadPart(t_upload *upload)
+BOOLEAN uploadpart(t_upload *upload)
 {
   int   len;
 

@@ -31,7 +31,7 @@ int     getsize(t_upload *upload)
     return (500000);
 }
 
-int     getMaxPart(t_upload *upload)
+int     getmaxpart(t_upload *upload)
 {
   if (upload->size <= 10000)
     return (1);
