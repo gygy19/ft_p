@@ -21,5 +21,4 @@ int		is_regular(const char *file);
 int		is_device(const char *file);
 int		is_dir(const char *file);
 
-
 #endif

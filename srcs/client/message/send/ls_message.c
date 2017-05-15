@@ -1,28 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ftp_ProtocolMessages.h                             :+:      :+:    :+:   */
+/*   lsProtocolMessage.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jguyet <jguyet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/05/04 17:24:51 by jguyet            #+#    #+#             */
-/*   Updated: 2017/05/04 17:24:53 by jguyet           ###   ########.fr       */
+/*   Created: 2017/05/06 00:47:30 by jguyet            #+#    #+#             */
+/*   Updated: 2017/05/06 00:47:32 by jguyet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FTP_PROTOCOLMESSAGE_H
-# define FTP_PROTOCOLMESSAGE_H
+#include "ftp_client.h"
 
-# include <libft.h>
-
-# define MAX_PROTOCOL_MESSAGE_LENGTH 20
-
-typedef struct			s_protocolmessage
+BOOLEAN	ls_message(t_socket_client *client, char **split)
 {
-	char				name[MAX_PROTOCOL_MESSAGE_LENGTH];
-	int					key;
-	BOOLEAN				(*execute)();
-	BOOLEAN				reprintprompt;
-}						t_protocolmessage;
-
-#endif
+	if (array_length(split) == 1)
+		client->send(client, client->serialize("%c", 102));
+	else
+		client->send(client, client->serialize("%c%s", 102, split[1]));
+	return (true);
+}

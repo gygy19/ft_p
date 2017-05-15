@@ -10,19 +10,19 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef IRC_COMMANDHOOKER_H
-# define IRC_COMMANDHOOKER_H
+#ifndef FTP_COMMANDHOOKER_H
+# define FTP_COMMANDHOOKER_H
 
 # include <libft.h>
 
 # define MAX_COMMAND_LENGTH 10
 
-typedef struct						s_CommandHooker
+typedef struct				s_commandhooker
 {
 	char					name[MAX_COMMAND_LENGTH];
 	int						key;
 	BOOLEAN					(*execute)();
-	size_t					args_Min;
-}							t_CommandHooker;
+	size_t					args_min;
+}							t_commandhooker;
 
 #endif

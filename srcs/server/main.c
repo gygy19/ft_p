@@ -30,17 +30,17 @@ t_socket_server	*singleton_socket_server(int port)
 	return (server);
 }
 
-void			loadPwd(t_socket_server *server, char **env)
+void			loadpwd(t_socket_server *server, char **env)
 {
-	int 	i;
+	int		i;
 	char	**split;
 
 	i = 0;
 	while (env[i])
 	{
 		split = ft_split_string(env[i], "=");
-			if (ft_strcmp(split[0], "PWD") == 0)
-				server->pwd = ft_strdup(split[1]);
+		if (ft_strcmp(split[0], "PWD") == 0)
+			server->pwd = ft_strdup(split[1]);
 		free_array(split);
 		i++;
 	}
@@ -58,11 +58,11 @@ int				main(int argc, char **argv, char **env)
 		return (1);
 	if (!(server = singleton_socket_server(port)))
 		return (1);
-	loadPwd(server, env);
+	loadpwd(server, env);
 	g_sig = 0;
 	signal(SIGINT, ctrlc);
 	signal(SIGTSTP, ctrlz);
 	signal(SIGQUIT, ctrlq);
-	loadProtocolsMessagesReceived(server);
+	load_received_messages(server);
 	return (socket_initialize(server));
 }

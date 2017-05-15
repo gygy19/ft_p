@@ -29,8 +29,8 @@ typedef struct	s_upload
 	char		*content;
 	size_t		size;
 	size_t		offset;
-	size_t		currentPart;
-	size_t		maxPart;
+	size_t		currentpart;
+	size_t		maxpart;
 	size_t		type;
 	char		*dest;
 	char		*part;

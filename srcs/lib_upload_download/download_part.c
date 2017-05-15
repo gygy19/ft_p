@@ -1,28 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ftp_ProtocolMessages.h                             :+:      :+:    :+:   */
+/*   downloadPart.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jguyet <jguyet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/05/04 17:24:51 by jguyet            #+#    #+#             */
-/*   Updated: 2017/05/04 17:24:53 by jguyet           ###   ########.fr       */
+/*   Created: 2017/05/06 07:34:12 by jguyet            #+#    #+#             */
+/*   Updated: 2017/05/06 07:34:13 by jguyet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FTP_PROTOCOLMESSAGE_H
-# define FTP_PROTOCOLMESSAGE_H
+#include "ftp_upload.h"
+#include "libfile.h"
+#include "printf.h"
 
-# include <libft.h>
-
-# define MAX_PROTOCOL_MESSAGE_LENGTH 20
-
-typedef struct			s_protocolmessage
+void	downloadpart(t_upload *upload, char *part, size_t size)
 {
-	char				name[MAX_PROTOCOL_MESSAGE_LENGTH];
-	int					key;
-	BOOLEAN				(*execute)();
-	BOOLEAN				reprintprompt;
-}						t_protocolmessage;
+	int	fd;
 
-#endif
+	fd = open(upload->dest,\
+		O_CREAT | O_APPEND | O_WRONLY | O_NONBLOCK,\
+		S_IWUSR | S_IRUSR | S_IRGRP | S_IROTH);
+	upload->currentpart++;
+	if (upload->currentpart > upload->maxpart)
+		return ;
+	upload->offset += size;
+	write(fd, (void*)part, size);
+	close(fd);
+}

@@ -1,28 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ftp_ProtocolMessages.h                             :+:      :+:    :+:   */
+/*   CommandLoader.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jguyet <jguyet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/05/04 17:24:51 by jguyet            #+#    #+#             */
-/*   Updated: 2017/05/04 17:24:53 by jguyet           ###   ########.fr       */
+/*   Created: 2017/05/04 15:32:01 by jguyet            #+#    #+#             */
+/*   Updated: 2017/05/04 15:32:22 by jguyet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FTP_PROTOCOLMESSAGE_H
-# define FTP_PROTOCOLMESSAGE_H
+#include "ftp_client.h"
 
-# include <libft.h>
-
-# define MAX_PROTOCOL_MESSAGE_LENGTH 20
-
-typedef struct			s_protocolmessage
+void	load_command_pointer(t_socket_client *client)
 {
-	char				name[MAX_PROTOCOL_MESSAGE_LENGTH];
-	int					key;
-	BOOLEAN				(*execute)();
-	BOOLEAN				reprintprompt;
-}						t_protocolmessage;
+	int	i;
 
-#endif
+	i = 0;
+	client->commandsmap = newstringhashmap(10);
+	while (i < AR_CMD_SIZE)
+	{
+		ft_printf("%s, %d\n", g_arrayclientcommands[i].name,\
+			g_arrayclientcommands[i].key);
+		client->commandsmap->add(client->commandsmap,\
+			g_arrayclientcommands[i].name, &g_arrayclientcommands[i]);
+		i++;
+	}
+}

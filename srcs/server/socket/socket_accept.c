@@ -1,28 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ftp_ProtocolMessages.h                             :+:      :+:    :+:   */
+/*   socket_accept.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jguyet <jguyet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/05/04 17:24:51 by jguyet            #+#    #+#             */
-/*   Updated: 2017/05/04 17:24:53 by jguyet           ###   ########.fr       */
+/*   Created: 2017/03/17 07:12:11 by jguyet            #+#    #+#             */
+/*   Updated: 2017/03/17 07:12:13 by jguyet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FTP_PROTOCOLMESSAGE_H
-# define FTP_PROTOCOLMESSAGE_H
+#include "ftp_server.h"
 
-# include <libft.h>
-
-# define MAX_PROTOCOL_MESSAGE_LENGTH 20
-
-typedef struct			s_protocolmessage
+t_client	*socket_accept(t_socket_server *server, int fd,\
+	struct sockaddr_in *addr)
 {
-	char				name[MAX_PROTOCOL_MESSAGE_LENGTH];
-	int					key;
-	BOOLEAN				(*execute)();
-	BOOLEAN				reprintprompt;
-}						t_protocolmessage;
+	t_client *client;
 
-#endif
+	if (!(client = add_new_client(server, fd)))
+		return (NULL);
+	client->in = *addr;
+	ft_printf("New TCP connexion from [%s:%d]\n",\
+		inet_ntoa(client->in.sin_addr), ntohs(client->in.sin_port));
+	client->send(client, client->serialize("%d", 1));
+	return (client);
+}

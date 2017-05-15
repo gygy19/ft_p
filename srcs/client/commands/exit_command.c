@@ -1,28 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ftp_ProtocolMessages.h                             :+:      :+:    :+:   */
+/*   quitCommand.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jguyet <jguyet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/05/04 17:24:51 by jguyet            #+#    #+#             */
-/*   Updated: 2017/05/04 17:24:53 by jguyet           ###   ########.fr       */
+/*   Created: 2017/05/06 06:59:42 by jguyet            #+#    #+#             */
+/*   Updated: 2017/05/06 06:59:44 by jguyet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FTP_PROTOCOLMESSAGE_H
-# define FTP_PROTOCOLMESSAGE_H
+#include "ftp_client.h"
 
-# include <libft.h>
-
-# define MAX_PROTOCOL_MESSAGE_LENGTH 20
-
-typedef struct			s_protocolmessage
+BOOLEAN	exit_command(t_socket_client *client, char **split)
 {
-	char				name[MAX_PROTOCOL_MESSAGE_LENGTH];
-	int					key;
-	BOOLEAN				(*execute)();
-	BOOLEAN				reprintprompt;
-}						t_protocolmessage;
-
-#endif
+	(void)split;
+	(void)client;
+	ft_printf("Connection Closed\n");
+	exit(0);
+	return (true);
+}

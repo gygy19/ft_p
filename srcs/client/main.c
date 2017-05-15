@@ -56,8 +56,8 @@ int				main(int argc, char **argv, char **env)
 		client->events[0].read = read_keys;
 		client->events[1].fd = 0;
 		client->events[1].read = read_keys;
-		loadmapofcommands(client);
-		loadprotocolsmessagesreceived(client);
+		load_command_pointer(client);
+		load_received_messages(client);
 		load_termios_console();
 		loadpwd(client, env);
 		if (gethostbyname(argv[1])\

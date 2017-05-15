@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   irc_client.h                                       :+:      :+:    :+:   */
+/*   ftp_client.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jguyet <jguyet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef IRC_CLIENT_H
-# define IRC_CLIENT_H
+#ifndef FTP_CLIENT_H
+# define FTP_CLIENT_H
 
 # include <sys/socket.h>
 # include <netinet/in.h>
@@ -73,14 +73,14 @@ typedef struct			s_socket_client
 	struct s_events		events[2];
 	struct s_cmds		*cmds;
 	struct s_cmds		*current_cmd;
-	struct s_hashmap	*commandsMap;
-	struct s_hashmap	*messagesReceivedMap;
+	struct s_hashmap	*commandsmap;
+	struct s_hashmap	*messagesreceivedmap;
 	int					(*send)();
 	char				*(*serialize)(const char *, ...);
 	char				*message;
 	char				*pwd;
-	t_upload		*upload;
-	t_upload		*download;
+	t_upload			*upload;
+	t_upload			*download;
 }						t_socket_client;
 
 /*
@@ -134,41 +134,50 @@ void					print_current_command(t_socket_client *client,\
 /*
 ** Commands
 */
-void 					loadmapofcommands(t_socket_client *client);
-BOOLEAN					processsendcdprotocolmessage(t_socket_client *client, char **split);
-BOOLEAN					processsendpwdprotocolmessage(t_socket_client *client, char **split);
-BOOLEAN					processsendlsprotocolmessage(t_socket_client *client, char **split);
-BOOLEAN					processsendgetfileprotocolmessage(t_socket_client *client, char **split);
-BOOLEAN					processsendputfileprotocolmessage(t_socket_client *client, char **split);
-BOOLEAN					processquitcommand(t_socket_client *client, char **split);
+void					load_command_pointer(t_socket_client *client);
+BOOLEAN					cd_message(t_socket_client *client, char **split);
+BOOLEAN					pwd_message(\
+						t_socket_client *client, char **split);
+BOOLEAN					ls_message(\
+						t_socket_client *client, char **split);
+BOOLEAN					download_file_message(\
+						t_socket_client *client, char **split);
+BOOLEAN					upload_file_message(\
+						t_socket_client *client, char **split);
+BOOLEAN					exit_command(t_socket_client *client,\
+						char **split);
 
-# define ARRAY_CLIENT_COMMANDS_SIZE 6
+# define AR_CMD_SIZE 6
 
-static const t_CommandHooker arrayclientcommands[ARRAY_CLIENT_COMMANDS_SIZE] = {
-	{"cd", 100, processsendcdprotocolmessage, 0},
-	{"pwd", 101, processsendpwdprotocolmessage, 0},
-	{"ls", 102, processsendlsprotocolmessage, 0},
-	{"get", 103, processsendgetfileprotocolmessage, 0},
-	{"put", 104, processsendputfileprotocolmessage, 0},
-	{"quit", 0, processquitcommand, 0}
+static const t_commandhooker g_arrayclientcommands[AR_CMD_SIZE] = {
+	{"cd", 100, cd_message, 0},
+	{"pwd", 101, pwd_message, 0},
+	{"ls", 102, ls_message, 0},
+	{"get", 103, download_file_message, 0},
+	{"put", 104, upload_file_message, 0},
+	{"quit", 0, exit_command, 0}
 };
 
 /*
 ** Messages
 */
-void 					loadprotocolsmessagesreceived(t_socket_client *client);
-BOOLEAN   				processreceivedtextprotocolmessage(t_socket_client *client, char *message);
-BOOLEAN   				processreceiveddirectoryprotocolmessage(t_socket_client *client, char *message);
-BOOLEAN   				processreceivedgetpartuploadprotocolmessage(t_socket_client *client, char *message);
-BOOLEAN   				processreceivedgetpartdownloadprotocolmessage(t_socket_client *client, char *message);
+void					load_received_messages(t_socket_client *client);
+BOOLEAN					infos_message(t_socket_client *client,\
+						char *message);
+BOOLEAN					directory_message(t_socket_client *client,\
+						char *message);
+BOOLEAN					upload_part_message(t_socket_client *client,\
+						char *message);
+BOOLEAN					download_part_message(t_socket_client *client,\
+						char *message);
 
-# define ARRAY_RECEIVED_MESSAGES_SIZE 4
+# define AR_RCV_SIZE 4
 
-static const t_ProtocolMessage arrayprotocolmessagesreceived[ARRAY_RECEIVED_MESSAGES_SIZE] = {
-	{"TextMessage", 12, processreceivedtextprotocolmessage, true},
-	{"DirectoryInfos", 13, processreceiveddirectoryprotocolmessage, true},
-	{"getPartUpload", 14, processreceivedgetpartuploadprotocolmessage, false},
-	{"DownloadPart", 104, processreceivedgetpartdownloadprotocolmessage, false}
+static const t_protocolmessage g_arrayprotocolmessagesreceived[AR_RCV_SIZE] = {
+	{"InfosMessage", 12, infos_message, true},
+	{"DirectoryInfos", 13, directory_message, true},
+	{"getPartUpload", 14, upload_part_message, false},
+	{"DownloadPart", 104, download_part_message, false}
 };
 
 /*

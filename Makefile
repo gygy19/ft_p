@@ -37,76 +37,72 @@ LIBFTDIR	=	libft/
 INCDIRLIBFT	=	$(LIBFTDIR)/includes/
 
 SRCSERVER	=	\
-				srcs/server/main.c																											\
-				srcs/server/data_processor.c																						\
-				srcs/server/lib/server.c																								\
-				srcs/server/lib/handler.c																								\
-				srcs/server/lib/socket_accept.c																					\
-				srcs/server/lib/sig.c																										\
-				srcs/server/client/client.c																							\
-				srcs/server/client/client_aks.c																					\
-				srcs/server/message/loadprotocolsmessagesreceived.c											\
-				srcs/server/message/received/cdprotocolmessage.c												\
-				srcs/server/message/received/pwdprotocolmessage.c												\
-				srcs/server/message/received/lsprotocolmessage.c												\
-				srcs/server/message/received/getfileprotocolmessage.c										\
-				srcs/server/message/received/putfileprotocolmessage.c										\
-				srcs/server/message/received/uploadpartprotocolmessage.c								\
-				srcs/server/message/received/getdownloadpartprotocolmessage.c						\
-				srcs/xor/xor.c																													\
-				srcs/xor/hexa_xor.c																											\
-				srcs/libfile/file_exists.c																							\
-				srcs/libfile/is_regular.c																								\
-				srcs/libfile/isdevice.c																									\
-				srcs/libfile/isdir.c																										\
-				srcs/libUpDownload/loadnewdownload.c																		\
-				srcs/libUpDownload/loadnewupload.c																			\
-				srcs/libUpDownload/downloadpart.c																				\
-				srcs/libUpDownload/uploadpart.c																					\
-				srcs/libUpDownload/sizesofparts.c																				\
-				srcs/server/lib/socket_disconnect.c
+				srcs/server/main.c															\
+				srcs/server/socket/server.c													\
+				srcs/server/socket/server_handler.c											\
+				srcs/server/socket/socket_accept.c											\
+				srcs/server/socket/client/client.c											\
+				srcs/server/socket/client/client_handler.c									\
+				srcs/server/socket/client/disconnect.c										\
+				srcs/server/signals/signals.c												\
+				srcs/server/message/data_processor.c										\
+				srcs/server/message/load_received_messages.c								\
+				srcs/server/message/received/cd_message.c									\
+				srcs/server/message/received/pwd_message.c									\
+				srcs/server/message/received/ls_message.c									\
+				srcs/server/message/received/download_file_message.c						\
+				srcs/server/message/received/upload_file_message.c							\
+				srcs/server/message/received/upload_part_message.c							\
+				srcs/server/message/received/download_part_message.c						\
+				srcs/lib_file/file_exists.c													\
+				srcs/lib_file/is_regular.c													\
+				srcs/lib_file/is_device.c													\
+				srcs/lib_file/is_dir.c														\
+				srcs/lib_upload_download/load_new_download.c								\
+				srcs/lib_upload_download/load_new_upload.c									\
+				srcs/lib_upload_download/download_part.c									\
+				srcs/lib_upload_download/upload_part.c										\
+				srcs/lib_upload_download/size_of_parts.c
 
 SRCSSERVER	=	$(addprefix $(SRCDIR), $(SRCSERVER))
 
 OBJSSERVER	=	$(addprefix $(OBJDIR), $(SRCSERVER:.c=.o))
 
 SRCCLIENT	=	\
-				srcs/client/main.c																											\
-				srcs/client/data_processor.c																						\
-				srcs/client/prompt/command_processor.c																	\
-				srcs/client/prompt/command_history.c																		\
-				srcs/client/prompt/command_remove.c																			\
-				srcs/client/prompt/command_switcher.c																		\
-				srcs/client/prompt/prompt_putting.c																			\
-				srcs/client/prompt/cursor_navigation.c																	\
-				srcs/client/commands/commandloader.c																		\
-				srcs/client/commands/quitcommand.c																			\
-				srcs/client/message/loadprotocolsmessagesreceived.c											\
-				srcs/client/message/send/cdprotocolmessage.c														\
-				srcs/client/message/send/pwdprotocolmessage.c														\
-				srcs/client/message/send/lsprotocolmessage.c														\
-				srcs/client/message/send/getfileprotocolmessage.c												\
-				srcs/client/message/send/putfileprotocolmessage.c												\
-				srcs/client/message/received/textprotocolmessage.c											\
-				srcs/client/message/received/directoryprotocolmessage.c									\
-				srcs/client/message/received/getpartuploadprotocolmessage.c							\
-				srcs/client/message/received/getpartdownloadprotocolmessage.c						\
-				srcs/client/lib/handler.c																								\
-				srcs/client/lib/socket.c																								\
-				srcs/client/window/size.c																								\
-				srcs/client/window/termios.c																						\
-				srcs/xor/xor.c																													\
-				srcs/xor/hexa_xor.c																											\
-				srcs/libfile/file_exists.c																							\
-				srcs/libfile/is_regular.c																								\
-				srcs/libfile/isdevice.c																									\
-				srcs/libfile/isdir.c																										\
-				srcs/libUpDownload/loadnewdownload.c																		\
-				srcs/libUpDownload/loadnewupload.c																			\
-				srcs/libUpDownload/downloadpart.c																				\
-				srcs/libUpDownload/uploadpart.c																					\
-				srcs/libUpDownload/sizesofparts.c																				\
-				srcs/client/lib/socket_session.c
+				srcs/client/main.c															\
+				srcs/client/message/data_processor.c										\
+				srcs/client/prompt/command_processor.c										\
+				srcs/client/prompt/command_history.c										\
+				srcs/client/prompt/command_remove.c											\
+				srcs/client/prompt/command_switcher.c										\
+				srcs/client/prompt/prompt_putting.c											\
+				srcs/client/prompt/cursor_navigation.c										\
+				srcs/client/commands/command_pointer_loader.c								\
+				srcs/client/commands/exit_command.c											\
+				srcs/client/message/load_received_messages.c								\
+				srcs/client/message/send/cd_message.c										\
+				srcs/client/message/send/pwd_message.c										\
+				srcs/client/message/send/ls_message.c										\
+				srcs/client/message/send/download_file_message.c							\
+				srcs/client/message/send/upload_file_message.c								\
+				srcs/client/message/received/infos_message.c								\
+				srcs/client/message/received/directory_message.c							\
+				srcs/client/message/received/upload_part_message.c							\
+				srcs/client/message/received/download_part_message.c						\
+				srcs/client/socket/handler.c												\
+				srcs/client/socket/socket.c													\
+				srcs/client/socket/session.c												\
+				srcs/client/window/size.c													\
+				srcs/client/window/termios.c												\
+				srcs/lib_file/file_exists.c													\
+				srcs/lib_file/is_regular.c													\
+				srcs/lib_file/is_device.c													\
+				srcs/lib_file/is_dir.c														\
+				srcs/lib_upload_download/load_new_download.c								\
+				srcs/lib_upload_download/load_new_upload.c									\
+				srcs/lib_upload_download/download_part.c									\
+				srcs/lib_upload_download/upload_part.c										\
+				srcs/lib_upload_download/size_of_parts.c
 
 SRCSCLIENT	=	$(addprefix $(SRCDIR), $(SRCCLIENT))
 
@@ -115,10 +111,10 @@ OBJSCLIENT	=	$(addprefix $(OBJDIR), $(SRCCLIENT:.c=.o))
 .SILENT:
 
 all:
-	if test -f $(CLIENT) && test -f $(SERVER) ; then						\
-		echo "make: Nothing to be done for \`all\`.";						\
-	else																	\
-		$(MAKE) -j $(NAME);													\
+	if test -f $(CLIENT) && test -f $(SERVER) ; then										\
+		echo "make: Nothing to be done for \`all\`.";										\
+	else																					\
+		$(MAKE) -j $(NAME);																	\
 	fi
 
 $(NAME):
@@ -140,27 +136,27 @@ $(OBJDIR):
 	mkdir -p $(dir $(OBJSCLIENT))
 
 $(OBJDIR)%.o : $(SRCDIR)%.c | $(OBJDIR)
-	$(CC) $(FLAGS) -MMD -c $< -o $@											\
+	$(CC) $(FLAGS) -MMD -c $< -o $@															\
 		-I $(INCDIR) -I $(INCDIRLIBFT)
-	printf "\r\033[38;5;117m%s%*.*s\033[0m\033[K"							\
-	"MAKE   "$(NAMEBASE)" plz wait ..."										\
+	printf "\r\033[38;5;117m%s%*.*s\033[0m\033[K"											\
+	"MAKE   "$(NAMEBASE)" plz wait ..."														\
 		$(MAX_COLS) $(MAX_COLS) "($(@)))"
 
 clean:
-	if [[ `rm -R $(OBJDIR) &> /dev/null 2>&1; echo $$?` == "0" ]]; then		\
-		echo -en "\r\033[38;5;101mCLEAN  "									\
-		"[\033[0m$(NAMEBASE)\033[38;5;101m]\033[K";							\
-	else																	\
-		printf "\r";														\
+	if [[ `rm -R $(OBJDIR) &> /dev/null 2>&1; echo $$?` == "0" ]]; then						\
+		echo -en "\r\033[38;5;101mCLEAN  "													\
+		"[\033[0m$(NAMEBASE)\033[38;5;101m]\033[K";											\
+	else																					\
+		printf "\r";																		\
 	fi
 	make -C $(LIBFTDIR) fclean
 
 fclean:		clean
-	if [[ `rm $(NAME) &> /dev/null 2>&1; echo $$?` == "0" ]]; then			\
-		echo -en "\r\033[38;5;124mFCLEAN "									\
-		"[\033[0m$(NAMEBASE)\033[38;5;124m]\033[K";							\
-	else																	\
-		printf "\r";														\
+	if [[ `rm $(NAME) &> /dev/null 2>&1; echo $$?` == "0" ]]; then							\
+		echo -en "\r\033[38;5;124mFCLEAN "													\
+		"[\033[0m$(NAMEBASE)\033[38;5;124m]\033[K";											\
+	else																					\
+		printf "\r";																		\
 	fi
 	make -C $(LIBFTDIR) fclean
 	rm -rf $(CLIENT)
