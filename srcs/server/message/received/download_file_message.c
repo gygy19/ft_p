@@ -30,7 +30,7 @@ BOOLEAN	download_file_message(t_socket_server *server,\
 	upload = loadnewupload(split[0], path);
 	if ((upload = loadnewupload(split[0], path)) != NULL)
 	{
-		client->send(client, client->serialize("%c%s|%s|%d", 104,\
+		client->send(client, client->serialize("%c%s|%s|%d", DOWNLOAD_PART,\
 			upload->filename, upload->path, upload->size));
 		client->upload = upload;
 	}

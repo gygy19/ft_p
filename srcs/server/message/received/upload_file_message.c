@@ -33,7 +33,7 @@ BOOLEAN	upload_file_message(t_socket_server *server,\
 	if (download != NULL)
 	{
 		client->download = download;
-		client->send(client, client->serialize("%c%d", 14,\
+		client->send(client, client->serialize("%c%d", GET_PART_UPLOAD,\
 			client->download->currentpart));
 	}
 	free_array(split);

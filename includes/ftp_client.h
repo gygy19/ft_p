@@ -132,7 +132,7 @@ void					print_current_command(t_socket_client *client,\
 						int start);
 
 /*
-** Commands
+** Commands send
 */
 void					load_command_pointer(t_socket_client *client);
 BOOLEAN					cd_message(t_socket_client *client, char **split);
@@ -159,7 +159,7 @@ static const t_commandhooker g_arrayclientcommands[AR_CMD_SIZE] = {
 };
 
 /*
-** Messages
+** Messages Received
 */
 void					load_received_messages(t_socket_client *client);
 BOOLEAN					infos_message(t_socket_client *client,\

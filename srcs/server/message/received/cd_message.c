@@ -93,12 +93,12 @@ BOOLEAN			cd_message(t_socket_server *server,\
 	if (!ft_cd(client, ft_strdup(split[0])))
 	{
 		client->send(client, client->serialize(\
-			"%cft_cd: no such file or directory: %s\n", 12, split[0]));
+			"%cft_cd: no such file or directory: %s\n", INFOS_MESSAGE, split[0]));
 		return (false);
 	}
 	else
 	{
-		client->send(client, client->serialize("%cft_cd: Succes %s\n", 12,\
+		client->send(client, client->serialize("%cft_cd: Succes %s\n", INFOS_MESSAGE,\
 			client->pwd));
 	}
 	free_array(split);

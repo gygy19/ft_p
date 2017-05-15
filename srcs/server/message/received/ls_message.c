@@ -66,13 +66,13 @@ BOOLEAN		ls_message(t_socket_server *server,\
 	if (directoryfiles == NULL)
 	{
 		client->send(client, client->serialize(\
-			"%cft_ls: %s: No such file or directory\n", 12, split[0]));
+			"%cft_ls: %s: No such file or directory\n", INFOS_MESSAGE, split[0]));
 		return (false);
 	}
 	if (ft_strlen(directoryfiles) == 0)
 		return (true);
 	(void)server;
-	client->send(client, client->serialize("%c%s", 13, directoryfiles));
+	client->send(client, client->serialize("%c%s", DIRECTORY_CONTENT_MESSAGE, directoryfiles));
 	free_array(split);
 	return (true);
 }

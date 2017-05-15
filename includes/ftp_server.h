@@ -137,6 +137,14 @@ static const t_protocolmessage g_arrayprotocolmessagesreceived[AR_RCV_SIZE] = {
 	{"getDownloadPart", 106, download_part_message, 0}
 };
 
+/*
+** Client Messages for send
+*/
+# define INFOS_MESSAGE 12
+# define DIRECTORY_CONTENT_MESSAGE 13
+# define GET_PART_UPLOAD 14
+# define DOWNLOAD_PART 104
+
 void						load_received_messages(t_socket_server *server);
 
 #endif
