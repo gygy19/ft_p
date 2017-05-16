@@ -13,7 +13,7 @@
 #include "ftp_client.h"
 #include "libfile.h"
 
-static char	*parse_path(char *filename)
+static char	*parse_path(t_socket_client *client, char *filename)
 {
 	char	*path;
 
@@ -35,7 +35,7 @@ BOOLEAN		set_download_path_command(t_socket_client *client, char **split)
 		ft_printf("Error setdownloadpath <directory>\n");
 		return (false);
 	}
-	path = parse_path(split[1]);
+	path = parse_path(client, split[1]);
 	if (!file_exists(path))
 	{
 		ft_printf("setdownloadpath: %s doens't exist\n", split[1]);

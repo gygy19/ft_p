@@ -29,6 +29,33 @@ static void		move_cursor_left(t_socket_client *client)
 	ft_putstr("\033[1D");
 }
 
+static void		tab_autocomplet(t_socket_client *client)
+{
+	int	i;
+
+	i = 0;
+	if (client->current_cmd->cmd == NULL)
+		return ;
+	while (i < AR_CMD_SIZE)
+	{
+		if (!ft_strncmp(client->current_cmd->cmd,\
+			g_arrayprotocolmessagessend[i].name,\
+			ft_strlen(client->current_cmd->cmd)))
+		{
+			ft_strdel(&client->current_cmd->cmd);
+			client->current_cmd->cmd = \
+			ft_strdup(g_arrayprotocolmessagessend[i].name);
+			while (client->current_cmd->cursor_pos <\
+				ft_strlen(client->current_cmd->cmd))
+				move_cursor_right(client);
+			ft_printf("\033[u\033[K");
+			reprint_line(client, true);
+			break ;
+		}
+		i++;
+	}
+}
+
 void			move_cursor_to_keycode_dir(t_socket_client *client,\
 	int key, char *keys)
 {
@@ -44,6 +71,10 @@ void			move_cursor_to_keycode_dir(t_socket_client *client,\
 	{
 		ft_printf("\033[2J\033[0;0H");
 		reprint_line(client, true);
+	}
+	if (key == 9 && ft_strlen(keys) == 1)
+	{
+		tab_autocomplet(client);
 	}
 }
 
