@@ -20,8 +20,6 @@ void	load_received_messages(t_socket_server *server)
 	server->messagesreceivedmap = newintegerhashmap(10);
 	while (i < AR_RCV_SIZE)
 	{
-		ft_printf("%s, %d\n", g_arrayprotocolmessagesreceived[i].name,\
-			g_arrayprotocolmessagesreceived[i].key);
 		server->messagesreceivedmap->add(server->messagesreceivedmap,\
 			g_arrayprotocolmessagesreceived[i].key,\
 			&g_arrayprotocolmessagesreceived[i]);

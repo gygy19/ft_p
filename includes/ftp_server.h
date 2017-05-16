@@ -55,6 +55,7 @@ typedef struct				s_client
 	char					*home;
 	t_upload				*upload;
 	t_upload				*download;
+	BOOLEAN					authentified;
 }							t_client;
 
 typedef struct				s_socket_server
@@ -124,8 +125,11 @@ BOOLEAN						upload_part_message(\
 BOOLEAN						download_part_message(\
 							t_socket_server *server, t_client *client,\
 							char *message);
+BOOLEAN						authentification_message(\
+							t_socket_server *server, t_client *client,\
+							char *message);
 
-# define AR_RCV_SIZE 7
+# define AR_RCV_SIZE 8
 
 static const t_protocolmessage g_arrayprotocolmessagesreceived[AR_RCV_SIZE] = {
 	{"cd", 100, cd_message, 0},
@@ -134,7 +138,8 @@ static const t_protocolmessage g_arrayprotocolmessagesreceived[AR_RCV_SIZE] = {
 	{"get", 103, download_file_message, 0},
 	{"put", 104, upload_file_message, 0},
 	{"UploadPart", 105, upload_part_message, 0},
-	{"getDownloadPart", 106, download_part_message, 0}
+	{"getDownloadPart", 106, download_part_message, 0},
+	{"Authentification", 1, authentification_message, 0}
 };
 
 /*

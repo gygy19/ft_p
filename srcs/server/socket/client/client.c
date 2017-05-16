@@ -52,6 +52,7 @@ t_client	*add_new_client(t_socket_server *server, int fd)
 	c->pwd = ft_strdup(server->pwd);
 	c->oldpwd = ft_strdup(server->pwd);
 	c->home = ft_strdup(server->pwd);
+	c->authentified = false;
 	add_client_to_server(server, c);
 	return (c);
 }

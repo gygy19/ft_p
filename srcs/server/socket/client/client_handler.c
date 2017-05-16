@@ -32,6 +32,12 @@ static int	read_new_message(t_client *client)
 
 	if (!(ret = recv(client->fd, &packetlength, sizeof(int), 0)))
 		return (0);
+	if (client->authentified == false && packetlength != 2)
+	{
+		send(client->fd, "authentification failed\n",\
+			ft_strlen("authentification failed\n"), 0);
+		return (0);
+	}
 	if (packetlength <= 0 || packetlength > 100000000)
 		return (0);
 	client->message = ft_strnew(packetlength);

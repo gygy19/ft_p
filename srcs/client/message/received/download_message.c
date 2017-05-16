@@ -73,12 +73,14 @@ BOOLEAN		download_message(t_socket_client *client, char *message)
 	split = ft_split_string(message, "|");
 	if (array_length(split) != 3)
 		return (false);
-	if (client->pwd[ft_strlen(client->pwd) - 1] == '/')
-		path = ft_strjoin(client->pwd, split[0]);
+	if (client->download_directory[\
+		ft_strlen(client->download_directory) - 1] == '/')
+		path = ft_strjoin(client->download_directory, split[0]);
 	else
-		path = ft_dstrjoin(ft_strjoin(client->pwd, "/"), split[0], 1);
+		path = ft_dstrjoin(ft_strjoin(client->download_directory, "/"),\
+			split[0], 1);
 	infos = ft_sprintf("%s|%d|%s", split[1], ft_atoi(split[2]), path);
-	ft_printf("\033[uft_put: Loading File...\n");
+	ft_printf("\033[uft_get: Loading File...\n");
 	start_download(client, split[0], infos);
 	ft_strdel(&path);
 	free_array(split);

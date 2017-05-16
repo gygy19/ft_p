@@ -23,7 +23,7 @@ static void	start_upload(t_client *client, char *filename, char *path)
 			upload->filename, upload->path, upload->size));
 		client->upload = upload;
 	}
-	else if (!(get_file_mode(path) & S_IRUSR))
+	else if (file_exists(path) && !(get_file_mode(path) & S_IRUSR))
 		client->send(client, client->serialize("%c%s%s\n", 12,\
 			"ft_get: Permission denied: ", filename));
 	else

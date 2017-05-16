@@ -1,27 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   socket_accept.c                                    :+:      :+:    :+:   */
+/*   hello_message.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jguyet <jguyet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/03/17 07:12:11 by jguyet            #+#    #+#             */
-/*   Updated: 2017/03/17 07:12:13 by jguyet           ###   ########.fr       */
+/*   Created: 2017/05/16 07:28:18 by jguyet            #+#    #+#             */
+/*   Updated: 2017/05/16 07:28:19 by jguyet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ftp_server.h"
+#include "ftp_client.h"
 
-t_client	*socket_accept(t_socket_server *server, int fd,\
-	struct sockaddr_in *addr)
+BOOLEAN	hello_message(t_socket_client *client, char *message)
 {
-	t_client *client;
-
-	if (!(client = add_new_client(server, fd)))
-		return (NULL);
-	client->in = *addr;
-	ft_printf("New TCP connexion from [%s:%d]\n",\
-		inet_ntoa(client->in.sin_addr), ntohs(client->in.sin_port));
+	(void)message;
 	client->send(client, client->serialize("%c", 1));
-	return (client);
+	return (true);
 }

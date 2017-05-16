@@ -82,7 +82,7 @@ static void	start_upload(t_socket_client *client, char *filename, char *path)
 			upload->filename, upload->path, upload->size));
 		client->upload = upload;
 	}
-	else if (!(get_file_mode(path) & S_IRUSR))
+	else if (file_exists(path) && !(get_file_mode(path) & S_IRUSR))
 		ft_printf("ft_put: Permission denied: %s\n", filename);
 	else
 		ft_printf("ft_put: no such file or directory: %s\n", filename);
@@ -95,9 +95,15 @@ BOOLEAN		upload_file_message(t_socket_client *client,\
 	char		*path;
 
 	if (client->host == NULL)
+	{
+		ft_printf("Error connect you on the server\n");
 		return (false);
+	}
 	if (array_length(split) <= 1)
+	{
+		ft_printf("Error put <file>\n");
 		return (false);
+	}
 	filename = get_file_name(split[1]);
 	if (split[1][0] != '/' && split[1][0] != '-' && split[1][0] != '~')
 		path = ft_dstrjoin(ft_strjoin(client->pwd, "/"), split[1], 1);

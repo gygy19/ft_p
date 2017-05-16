@@ -1,38 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   socket.c                                           :+:      :+:    :+:   */
+/*   disconnect_command.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jguyet <jguyet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/03/28 18:29:26 by jguyet            #+#    #+#             */
-/*   Updated: 2017/03/28 18:29:28 by jguyet           ###   ########.fr       */
+/*   Created: 2017/05/16 05:08:27 by jguyet            #+#    #+#             */
+/*   Updated: 2017/05/16 05:08:29 by jguyet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ftp_client.h"
 
-int		open_socket_connection(t_socket_client *client,\
-	char *formated_ip, int port)
+BOOLEAN	disconnect_command(t_socket_client *client, char **split)
 {
-	if (client->host != NULL)
-		ft_strdel(&client->host);
-	client->host = ft_strdup(formated_ip);
-	client->oldhost = ft_strdup(formated_ip);
-	client->server = gethostbyname(client->host);
-	client->port = port;
-	if (aks_initialize_connection(client))
+	(void)split;
+	if (client->host == NULL)
 	{
-		client->events[1].fd = client->sockfd;
-		client->events[1].read = received_message;
-		ft_printf("Server connection established from %s:%d\n",\
-			client->host, client->port);
-		return (1);
+		ft_printf("Error you is not connected from the server\n");
+		return (false);
 	}
 	if (client->host != NULL)
+	{
+		ft_printf("Server disconnection %s:%d\n", client->host, client->port);
 		ft_strdel(&client->host);
+	}
+	close(client->sockfd);
 	client->host = NULL;
 	client->events[1].fd = 0;
 	client->events[1].read = read_keys;
-	return (0);
+	return (true);
 }

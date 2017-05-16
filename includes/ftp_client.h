@@ -64,6 +64,7 @@ typedef struct			s_cmds
 typedef struct			s_socket_client
 {
 	char				*host;
+	char				*oldhost;
 	int					port;
 	int					sockfd;
 	char				*nickname;
@@ -78,6 +79,7 @@ typedef struct			s_socket_client
 	char				*(*serialize)(const char *, ...);
 	char				*message;
 	char				*pwd;
+	char				*download_directory;
 	t_upload			*upload;
 	t_upload			*download;
 }						t_socket_client;
@@ -145,8 +147,20 @@ BOOLEAN					upload_file_message(\
 						t_socket_client *client, char **split);
 BOOLEAN					exit_command(t_socket_client *client,\
 						char **split);
+BOOLEAN					help_command(t_socket_client *client,\
+						char **split);
+BOOLEAN					reconnect_command(t_socket_client *client,\
+						char **split);
+BOOLEAN					connect_command(t_socket_client *client,\
+						char **split);
+BOOLEAN					disconnect_command(t_socket_client *client,\
+						char **split);
+BOOLEAN					set_download_path_command(t_socket_client *client,\
+						char **split);
+BOOLEAN					get_download_path_command(t_socket_client *client,\
+						char **split);
 
-# define AR_CMD_SIZE 6
+# define AR_CMD_SIZE 13
 
 static const t_protocolmessage g_arrayprotocolmessagessend[AR_CMD_SIZE] = {
 	{"cd", 100, cd_message, true},
@@ -155,6 +169,13 @@ static const t_protocolmessage g_arrayprotocolmessagessend[AR_CMD_SIZE] = {
 	{"get", 103, download_file_message, true},
 	{"put", 104, upload_file_message, true},
 	{"quit", 0, exit_command, true},
+	{"exit", 0, exit_command, true},
+	{"help", 0, help_command, true},
+	{"reconnect", 0, reconnect_command, true},
+	{"connect", 0, connect_command, true},
+	{"disconnect", 0, disconnect_command, true},
+	{"setdownloadpath", 0, set_download_path_command, true},
+	{"getdownloadpath", 0, get_download_path_command, true}
 };
 
 /*
@@ -171,8 +192,10 @@ BOOLEAN					download_part_message(t_socket_client *client,\
 						char *message);
 BOOLEAN					download_message(t_socket_client *client,\
 						char *message);
+BOOLEAN					hello_message(t_socket_client *client,\
+						char *message);
 
-# define AR_RCV_SIZE 5
+# define AR_RCV_SIZE 6
 
 static const t_protocolmessage g_arrayprotocolmessagesreceived[AR_RCV_SIZE] = {
 	{"InfosMessage", 12, infos_message, true},
@@ -180,6 +203,7 @@ static const t_protocolmessage g_arrayprotocolmessagesreceived[AR_RCV_SIZE] = {
 	{"getPartUpload", 14, upload_part_message, false},
 	{"DownloadPart", 104, download_part_message, false},
 	{"DownloadFile", 103, download_message, false},
+	{"HelloMessage", 1, hello_message, false}
 };
 
 /*

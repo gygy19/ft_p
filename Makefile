@@ -54,6 +54,7 @@ SRCSERVER	=	\
 				srcs/server/message/received/upload_file_message.c							\
 				srcs/server/message/received/upload_part_message.c							\
 				srcs/server/message/received/download_part_message.c						\
+				srcs/server/message/received/authentification_message.c						\
 				srcs/lib_file/file_exists.c													\
 				srcs/lib_file/is_regular.c													\
 				srcs/lib_file/is_device.c													\
@@ -79,6 +80,12 @@ SRCCLIENT	=	\
 				srcs/client/prompt/prompt_putting.c											\
 				srcs/client/prompt/cursor_navigation.c										\
 				srcs/client/commands/exit_command.c											\
+				srcs/client/commands/help_command.c											\
+				srcs/client/commands/disconnect_command.c									\
+				srcs/client/commands/connect_command.c										\
+				srcs/client/commands/reconnect_command.c									\
+				srcs/client/commands/set_download_path.c									\
+				srcs/client/commands/get_download_path.c									\
 				srcs/client/message/load_received_messages.c								\
 				srcs/client/message/load_send_messages.c									\
 				srcs/client/message/send/cd_message.c										\
@@ -91,6 +98,7 @@ SRCCLIENT	=	\
 				srcs/client/message/received/upload_part_message.c							\
 				srcs/client/message/received/download_part_message.c						\
 				srcs/client/message/received/download_message.c								\
+				srcs/client/message/received/hello_message.c								\
 				srcs/client/socket/handler.c												\
 				srcs/client/socket/socket.c													\
 				srcs/client/socket/session.c												\
