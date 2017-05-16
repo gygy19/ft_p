@@ -14,18 +14,25 @@
 #include "libfile.h"
 #include "printf.h"
 
-t_upload	*loadnewupload(char *filename, char *path)
+static BOOLEAN	is_correct_file(char *path)
+{
+	if (!file_exists(path))
+		return (false);
+	if (!is_regular(path))
+		return (false);
+	if (!(get_file_mode(path) & S_IRUSR))
+		return (false);
+	return (true);
+}
+
+t_upload		*loadnewupload(char *filename, char *path)
 {
 	struct stat	buf;
 	t_upload	*upload;
 	int			fd;
 	void		*ptr;
 
-	if (!file_exists(path))
-		return (NULL);
-	if (!is_regular(path))
-		return (NULL);
-	if (!(get_file_mode(path) & S_IRUSR))
+	if (!is_correct_file(path))
 		return (NULL);
 	if (!(upload = (t_upload*)malloc(sizeof(t_upload))))
 		return (NULL);

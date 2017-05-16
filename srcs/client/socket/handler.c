@@ -54,21 +54,6 @@ int			send_message(t_socket_client *client, char *message)
 	return (!(r < 0));
 }
 
-void		server_disconnect(t_socket_client *client)
-{
-	if (client->host != NULL)
-	{
-		ft_printf("Server disconnection %s:%d\n", client->host, client->port);
-		ft_strdel(&client->host);
-	}
-	else
-		ft_printf("Server disconnection\n");
-	client->host = NULL;
-	client->events[1].fd = 0;
-	client->events[1].read = read_keys;
-	reprint_line(client, true);
-}
-
 static void	read_message(t_socket_client *client, int packetlength)
 {
 	size_t	ret;

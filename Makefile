@@ -94,6 +94,7 @@ SRCCLIENT	=	\
 				srcs/client/socket/handler.c												\
 				srcs/client/socket/socket.c													\
 				srcs/client/socket/session.c												\
+				srcs/client/socket/disconnect.c												\
 				srcs/client/window/size.c													\
 				srcs/client/window/termios.c												\
 				srcs/lib_file/file_exists.c													\

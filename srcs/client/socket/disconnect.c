@@ -1,28 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   command_switcher.c                                 :+:      :+:    :+:   */
+/*   disconnect.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jguyet <jguyet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/03/29 05:18:00 by jguyet            #+#    #+#             */
-/*   Updated: 2017/03/29 05:18:01 by jguyet           ###   ########.fr       */
+/*   Created: 2017/05/16 04:45:45 by jguyet            #+#    #+#             */
+/*   Updated: 2017/05/16 04:45:46 by jguyet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ftp_client.h"
 
-void			switch_command(t_socket_client *client, char *cmd)
+void		server_disconnect(t_socket_client *client)
 {
-	char				**split;
-	t_protocolmessage	*command;
-
-	split = ft_split_string(cmd, " ");
-	if (array_length(split) == 0)
-		return ;
-	command = (t_protocolmessage*)client->messagessendmap->get(\
-		client->messagessendmap, split[0]);
-	if (command != NULL)
-		command->execute(client, split);
-	free_array(split);
+	if (client->host != NULL)
+	{
+		ft_printf("Server disconnection %s:%d\n", client->host, client->port);
+		ft_strdel(&client->host);
+	}
+	else
+		ft_printf("Server disconnection\n");
+	client->host = NULL;
+	client->events[1].fd = 0;
+	client->events[1].read = read_keys;
+	reprint_line(client, true);
 }

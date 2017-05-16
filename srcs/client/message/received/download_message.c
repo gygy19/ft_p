@@ -47,10 +47,26 @@ static void	print_informations(t_upload *upload)
 		upload->size, size, c);
 }
 
-BOOLEAN	download_message(t_socket_client *client, char *message)
+static void	start_download(t_socket_client *client, char *filename,\
+	char *infos)
+{
+	t_upload	*download;
+
+	download = loadnewdownload(filename, infos);
+	if (download != NULL)
+	{
+		print_informations(download);
+		print_file_type(download);
+		ft_putstr("\n");
+		client->download = download;
+		client->send(client, client->serialize("%c%d", 106,\
+			client->download->currentpart));
+	}
+}
+
+BOOLEAN		download_message(t_socket_client *client, char *message)
 {
 	char		**split;
-	t_upload	*download;
 	char		*infos;
 	char		*path;
 
@@ -63,16 +79,8 @@ BOOLEAN	download_message(t_socket_client *client, char *message)
 		path = ft_dstrjoin(ft_strjoin(client->pwd, "/"), split[0], 1);
 	infos = ft_sprintf("%s|%d|%s", split[1], ft_atoi(split[2]), path);
 	ft_printf("\033[uft_put: Loading File...\n");
-	download = loadnewdownload(split[0], infos);
-	if (download != NULL)
-	{
-		print_informations(download);
-		print_file_type(download);
-		ft_putstr("\n");
-		client->download = download;
-		client->send(client, client->serialize("%c%d", 106,\
-			client->download->currentpart));
-	}
+	start_download(client, split[0], infos);
+	ft_strdel(&path);
 	free_array(split);
 	return (true);
 }

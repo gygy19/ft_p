@@ -68,10 +68,29 @@ static void	print_informations(t_upload *upload)
 		upload->size, size, c);
 }
 
+static void	start_upload(t_socket_client *client, char *filename, char *path)
+{
+	t_upload	*upload;
+
+	upload = loadnewupload(filename, path);
+	if (upload != NULL)
+	{
+		print_informations(upload);
+		print_file_type(upload);
+		ft_putstr("\n");
+		client->send(client, client->serialize("%c%s|%s|%d", 104,\
+			upload->filename, upload->path, upload->size));
+		client->upload = upload;
+	}
+	else if (!(get_file_mode(path) & S_IRUSR))
+		ft_printf("ft_put: Permission denied: %s\n", filename);
+	else
+		ft_printf("ft_put: no such file or directory: %s\n", filename);
+}
+
 BOOLEAN		upload_file_message(t_socket_client *client,\
 	char **split)
 {
-	t_upload	*upload;
 	char		*filename;
 	char		*path;
 
@@ -85,20 +104,7 @@ BOOLEAN		upload_file_message(t_socket_client *client,\
 	else
 		path = ft_strdup(split[1]);
 	ft_printf("ft_put: Loading File...\n");
-	upload = loadnewupload(filename, path);
-	if (upload != NULL)
-	{
-		print_informations(upload);
-		print_file_type(upload);
-		ft_putstr("\n");
-		client->send(client, client->serialize("%c%s|%s|%d", 104,\
-			upload->filename, upload->path, upload->size));
-		client->upload = upload;
-	}
-	else if (!(get_file_mode(path) & S_IRUSR))
-		ft_printf("ft_put: Permission denied: %s\n", split[1]);
-	else
-		ft_printf("ft_put: no such file or directory: %s\n", split[1]);
+	start_upload(client, filename, path);
 	ft_strdel(&filename);
 	ft_strdel(&path);
 	return (true);

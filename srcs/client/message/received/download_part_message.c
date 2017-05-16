@@ -77,7 +77,8 @@ BOOLEAN		download_part_message(t_socket_client *client, char *message)
 	part = read_on_socket_file_content(client, size);
 	savepourcentage = (100 * client->download->offset) / client->download->size;
 	downloadpart(client->download, part, size);
-	if (savepourcentage < (int)((100 * client->download->offset) / client->download->size)
+	if (savepourcentage < \
+		(int)((100 * client->download->offset) / client->download->size)
 		|| client->download->currentpart == 1)
 		print_purcentage(client, client->download);
 	if (client->download->currentpart < client->download->maxpart)

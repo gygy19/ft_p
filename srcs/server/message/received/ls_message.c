@@ -13,7 +13,7 @@
 #include "ftp_server.h"
 #include "libfile.h"
 
-static DIR	*open_directory(char *dir)
+static DIR		*open_directory(char *dir)
 {
 	DIR	*dirp;
 
@@ -24,7 +24,7 @@ static DIR	*open_directory(char *dir)
 	return (dirp);
 }
 
-static char	*parsedirectorytomessage(char *dir, int flags)
+static char		*parsedirectorytomessage(char *dir, int flags)
 {
 	DIR				*dirp;
 	struct dirent	*files;
@@ -52,7 +52,7 @@ static char	*parsedirectorytomessage(char *dir, int flags)
 	return (message);
 }
 
-static BOOLEAN senderror(t_client *client, char *file)
+static BOOLEAN	senderror(t_client *client, char *file)
 {
 	if (file != NULL)
 		client->send(client, client->serialize(\
@@ -65,7 +65,7 @@ static BOOLEAN senderror(t_client *client, char *file)
 	return (false);
 }
 
-BOOLEAN		ls_message(t_socket_server *server,\
+BOOLEAN			ls_message(t_socket_server *server,\
 	t_client *client, char *message)
 {
 	char	*directoryfiles;
