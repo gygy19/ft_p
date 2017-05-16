@@ -20,5 +20,6 @@ int		file_exists(const char *file);
 int		is_regular(const char *file);
 int		is_device(const char *file);
 int		is_dir(const char *file);
+int		get_file_mode(const char *path);
 
 #endif

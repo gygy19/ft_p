@@ -12,6 +12,7 @@
 
 #include "ftp_client.h"
 #include "ftp_upload.h"
+#include "libfile.h"
 
 static char	*get_file_name(char *path)
 {
@@ -74,6 +75,8 @@ BOOLEAN		upload_file_message(t_socket_client *client,\
 	char		*filename;
 	char		*path;
 
+	if (client->host == NULL)
+		return (false);
 	if (array_length(split) <= 1)
 		return (false);
 	filename = get_file_name(split[1]);
@@ -92,6 +95,8 @@ BOOLEAN		upload_file_message(t_socket_client *client,\
 			upload->filename, upload->path, upload->size));
 		client->upload = upload;
 	}
+	else if (!(get_file_mode(path) & S_IRUSR))
+		ft_printf("ft_put: Permission denied: %s\n", split[1]);
 	else
 		ft_printf("ft_put: no such file or directory: %s\n", split[1]);
 	ft_strdel(&filename);

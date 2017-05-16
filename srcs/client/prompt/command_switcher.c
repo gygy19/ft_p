@@ -15,14 +15,14 @@
 void			switch_command(t_socket_client *client, char *cmd)
 {
 	char				**split;
-	t_commandhooker		*command;
+	t_protocolmessage	*command;
 
 	split = ft_split_string(cmd, " ");
 	if (array_length(split) == 0)
 		return ;
-	command = (t_commandhooker*)client->commandsmap->get(client->commandsmap,\
+	command = (t_protocolmessage*)client->messagessendmap->get(client->messagessendmap,\
 		split[0]);
-	if (command != NULL && (array_length(split) - 1) >= command->args_min)
+	if (command != NULL)
 		command->execute(client, split);
 	free_array(split);
 }

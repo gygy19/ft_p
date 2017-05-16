@@ -15,6 +15,8 @@
 BOOLEAN	pwd_message(t_socket_client *client, char **split)
 {
 	(void)split;
+	if (client->host == NULL)
+		return (false);
 	client->send(client, client->serialize("%c", 101));
 	return (true);
 }

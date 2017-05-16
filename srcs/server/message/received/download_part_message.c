@@ -19,16 +19,17 @@ BOOLEAN	download_part_message(t_socket_server *server,\
 	int		savepourcentage;
 
 	(void)server;
-	if (client->download == NULL)
+	if (client->upload == NULL)
 		return (false);
 	partid = ft_atoi(message);
 	(void)partid;
-	savepourcentage = (100 * client->download->offset) / client->download->size;
-	if (uploadpart(client->download))
+	savepourcentage = (100 * client->upload->offset) / client->upload->size;
+	if (uploadpart(client->upload))
 	{
-		client->send(client, client->serialize("%c%d", 105,\
-			client->download->partsize));
-		send(client->fd, client->download->part, client->download->partsize, 0);
+		ft_printf("SEND PART\n");
+		client->send(client, client->serialize("%c%d", 104,\
+			client->upload->partsize));
+		send(client->fd, client->upload->part, client->upload->partsize, 0);
 	}
 	return (true);
 }

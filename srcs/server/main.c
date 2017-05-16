@@ -36,6 +36,7 @@ void			loadpwd(t_socket_server *server, char **env)
 	char	**split;
 
 	i = 0;
+	server->pwd = NULL;
 	while (env[i])
 	{
 		split = ft_split_string(env[i], "=");
@@ -43,6 +44,12 @@ void			loadpwd(t_socket_server *server, char **env)
 			server->pwd = ft_strdup(split[1]);
 		free_array(split);
 		i++;
+	}
+	if (server->pwd == NULL)
+	{
+		ft_printf("For server security system %s\n",\
+			"exit ! Environement path doesn't exist.");
+		exit(0);
 	}
 }
 

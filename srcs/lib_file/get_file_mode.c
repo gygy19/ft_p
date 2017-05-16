@@ -1,29 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   CommandLoader.c                                    :+:      :+:    :+:   */
+/*   get_file_mode.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jguyet <jguyet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/05/04 15:32:01 by jguyet            #+#    #+#             */
-/*   Updated: 2017/05/04 15:32:22 by jguyet           ###   ########.fr       */
+/*   Created: 2017/05/16 02:50:56 by jguyet            #+#    #+#             */
+/*   Updated: 2017/05/16 02:52:51 by jguyet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ftp_client.h"
+#include "libfile.h"
 
-void	load_command_pointer(t_socket_client *client)
+int	get_file_mode(const char *path)
 {
-	int	i;
+	struct stat stats;
 
-	i = 0;
-	client->commandsmap = newstringhashmap(10);
-	while (i < AR_CMD_SIZE)
-	{
-		ft_printf("%s, %d\n", g_arrayclientcommands[i].name,\
-			g_arrayclientcommands[i].key);
-		client->commandsmap->add(client->commandsmap,\
-			g_arrayclientcommands[i].name, &g_arrayclientcommands[i]);
-		i++;
-	}
+	if (!file_exists(path))
+		return (0);
+	stat(path, &stats);
+	return (stats.st_mode);
 }

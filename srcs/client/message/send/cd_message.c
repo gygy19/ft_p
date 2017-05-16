@@ -14,6 +14,8 @@
 
 BOOLEAN	cd_message(t_socket_client *client, char **split)
 {
+	if (client->host == NULL)
+		return (false);
 	if (array_length(split) <= 1)
 		return (false);
 	client->send(client, client->serialize("%c%s", 100, split[1]));

@@ -26,7 +26,6 @@
 # include <netdb.h>
 
 # include "ftp_protocolmessage.h"
-# include "ftp_commandHooker.h"
 # include "ftp_upload.h"
 
 # define EPROTONOSUPPORT 93
@@ -73,7 +72,7 @@ typedef struct			s_socket_client
 	struct s_events		events[2];
 	struct s_cmds		*cmds;
 	struct s_cmds		*current_cmd;
-	struct s_hashmap	*commandsmap;
+	struct s_hashmap	*messagessendmap;
 	struct s_hashmap	*messagesreceivedmap;
 	int					(*send)();
 	char				*(*serialize)(const char *, ...);
@@ -149,13 +148,13 @@ BOOLEAN					exit_command(t_socket_client *client,\
 
 # define AR_CMD_SIZE 6
 
-static const t_commandhooker g_arrayclientcommands[AR_CMD_SIZE] = {
-	{"cd", 100, cd_message, 0},
-	{"pwd", 101, pwd_message, 0},
-	{"ls", 102, ls_message, 0},
-	{"get", 103, download_file_message, 0},
-	{"put", 104, upload_file_message, 0},
-	{"quit", 0, exit_command, 0}
+static const t_protocolmessage g_arrayprotocolmessagessend[AR_CMD_SIZE] = {
+	{"cd", 100, cd_message, true},
+	{"pwd", 101, pwd_message, true},
+	{"ls", 102, ls_message, true},
+	{"get", 103, download_file_message, true},
+	{"put", 104, upload_file_message, true},
+	{"quit", 0, exit_command, true},
 };
 
 /*
@@ -170,14 +169,17 @@ BOOLEAN					upload_part_message(t_socket_client *client,\
 						char *message);
 BOOLEAN					download_part_message(t_socket_client *client,\
 						char *message);
+BOOLEAN					download_message(t_socket_client *client,\
+						char *message);
 
-# define AR_RCV_SIZE 4
+# define AR_RCV_SIZE 5
 
 static const t_protocolmessage g_arrayprotocolmessagesreceived[AR_RCV_SIZE] = {
 	{"InfosMessage", 12, infos_message, true},
 	{"DirectoryInfos", 13, directory_message, true},
 	{"getPartUpload", 14, upload_part_message, false},
-	{"DownloadPart", 104, download_part_message, false}
+	{"DownloadPart", 104, download_part_message, false},
+	{"DownloadFile", 103, download_message, false},
 };
 
 /*

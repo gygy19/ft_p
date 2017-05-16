@@ -14,6 +14,8 @@
 
 BOOLEAN	ls_message(t_socket_client *client, char **split)
 {
+	if (client->host == NULL)
+		return (false);
 	if (array_length(split) == 1)
 		client->send(client, client->serialize("%c", 102));
 	else

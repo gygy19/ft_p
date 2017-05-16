@@ -30,6 +30,11 @@ void		data_processor(t_socket_client *client, char *message)
 		if (protocolmessage->reprintprompt)
 			reprint_line(client, true);
 	}
+	else
+	{
+		ft_printf("{color70}Message ({color149}%d%s\n",\
+			packetid, "{reset}{color70}) {red}not handle{reset}");
+	}
 	if (finalmessage != NULL)
 		ft_strdel(&finalmessage);
 }

@@ -58,7 +58,8 @@ BOOLEAN		upload_part_message(t_socket_client *client,\
 		send(client->sockfd, client->upload->part,\
 			client->upload->partsize, 0);
 		if (savepourcentage <
-			(int)((100 * client->upload->offset) / client->upload->size))
+			(int)((100 * client->upload->offset) / client->upload->size)
+			|| client->upload->currentpart == 1)
 			print_purcentage(client, client->upload);
 	}
 	return (true);

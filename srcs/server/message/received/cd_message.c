@@ -61,15 +61,23 @@ static char		*getformatedpwd(char *newpwd, t_client *client,\
 	return (pwd);
 }
 
-static BOOLEAN	ft_cd(t_client *client, char *newpwd)
+static BOOLEAN	ft_cd(t_socket_server *server, t_client *client,\
+	char *newpwd)
 {
 	char *pwd;
 
 	if (newpwd[0] != '/' && newpwd[0] != '~' && newpwd[0] != '-')
 		newpwd = ft_dstrjoin(ft_strjoin(client->pwd, "/"), newpwd, 3);
 	pwd = getformatedpwd(newpwd, client, 0, ft_strnew(1));
-	if (!is_dir(pwd))
+	if (!is_dir(pwd) || ft_strncmp(server->pwd, pwd, ft_strlen(server->pwd)))
 	{
+		if (!is_dir(pwd))
+			client->send(client, client->serialize(\
+				"%cft_cd: no such file or directory: %s\n",\
+				INFOS_MESSAGE, newpwd));
+		else
+			client->send(client, client->serialize(\
+				"%cft_cd: path restricted: %s\n", INFOS_MESSAGE, server->pwd));
 		ft_strdel(&newpwd);
 		ft_strdel(&pwd);
 		return (false);
@@ -85,21 +93,21 @@ BOOLEAN			cd_message(t_socket_server *server,\
 	t_client *client, char *message)
 {
 	char	**split;
+	char	*newpwd;
 
-	(void)server;
 	split = ft_split_string(message, "|");
 	if (client->pwd == NULL && array_length(split) == 0)
 		return (false);
-	if (!ft_cd(client, ft_strdup(split[0])))
+	newpwd = ft_strdup(split[0]);
+	if (!ft_cd(server, client, newpwd))
 	{
-		client->send(client, client->serialize(\
-			"%cft_cd: no such file or directory: %s\n", INFOS_MESSAGE, split[0]));
+		free_array(split);
 		return (false);
 	}
 	else
 	{
-		client->send(client, client->serialize("%cft_cd: Succes %s\n", INFOS_MESSAGE,\
-			client->pwd));
+		client->send(client, client->serialize("%cft_cd: Succes %s\n",\
+			INFOS_MESSAGE, client->pwd));
 	}
 	free_array(split);
 	return (true);

@@ -31,6 +31,8 @@ static char	*parsedirectorytomessage(char *dir, int flags)
 	char			*message;
 	char			*tmp;
 
+	if (!is_dir(dir))
+		return (NULL);
 	if ((dirp = open_directory(dir)) == NULL)
 		return (NULL);
 	files = malloc(sizeof(struct dirent));
@@ -50,6 +52,19 @@ static char	*parsedirectorytomessage(char *dir, int flags)
 	return (message);
 }
 
+static BOOLEAN senderror(t_client *client, char *file)
+{
+	if (file != NULL)
+		client->send(client, client->serialize(\
+			"%cft_ls: %s: No such file or directory\n",\
+			INFOS_MESSAGE, file));
+	else
+		client->send(client, client->serialize(\
+			"%cft_ls: %s: directory is deleted\n",\
+			INFOS_MESSAGE, client->pwd));
+	return (false);
+}
+
 BOOLEAN		ls_message(t_socket_server *server,\
 	t_client *client, char *message)
 {
@@ -64,15 +79,12 @@ BOOLEAN		ls_message(t_socket_server *server,\
 	else
 		directoryfiles = parsedirectorytomessage(split[0], 1024);
 	if (directoryfiles == NULL)
-	{
-		client->send(client, client->serialize(\
-			"%cft_ls: %s: No such file or directory\n", INFOS_MESSAGE, split[0]));
-		return (false);
-	}
+		return (senderror(client, split[0]));
 	if (ft_strlen(directoryfiles) == 0)
 		return (true);
 	(void)server;
-	client->send(client, client->serialize("%c%s", DIRECTORY_CONTENT_MESSAGE, directoryfiles));
+	client->send(client, client->serialize("%c%s",\
+		DIRECTORY_CONTENT_MESSAGE, directoryfiles));
 	free_array(split);
 	return (true);
 }

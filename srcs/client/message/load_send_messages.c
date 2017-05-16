@@ -1,28 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ftp_CommandHooker.h                                :+:      :+:    :+:   */
+/*   CommandLoader.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jguyet <jguyet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/05/04 17:34:11 by jguyet            #+#    #+#             */
-/*   Updated: 2017/05/04 17:34:12 by jguyet           ###   ########.fr       */
+/*   Created: 2017/05/04 15:32:01 by jguyet            #+#    #+#             */
+/*   Updated: 2017/05/04 15:32:22 by jguyet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FTP_COMMANDHOOKER_H
-# define FTP_COMMANDHOOKER_H
+#include "ftp_client.h"
 
-# include <libft.h>
-
-# define MAX_COMMAND_LENGTH 10
-
-typedef struct				s_commandhooker
+void	load_command_pointer(t_socket_client *client)
 {
-	char					name[MAX_COMMAND_LENGTH];
-	int						key;
-	BOOLEAN					(*execute)();
-	size_t					args_min;
-}							t_commandhooker;
+	int	i;
 
-#endif
+	i = 0;
+	client->messagessendmap = newstringhashmap(10);
+	while (i < AR_CMD_SIZE)
+	{
+		client->messagessendmap->add(client->messagessendmap,\
+			g_arrayprotocolmessagessend[i].name,\
+			&g_arrayprotocolmessagessend[i]);
+		i++;
+	}
+}

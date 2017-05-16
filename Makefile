@@ -58,6 +58,7 @@ SRCSERVER	=	\
 				srcs/lib_file/is_regular.c													\
 				srcs/lib_file/is_device.c													\
 				srcs/lib_file/is_dir.c														\
+				srcs/lib_file/get_file_mode.c												\
 				srcs/lib_upload_download/load_new_download.c								\
 				srcs/lib_upload_download/load_new_upload.c									\
 				srcs/lib_upload_download/download_part.c									\
@@ -77,9 +78,9 @@ SRCCLIENT	=	\
 				srcs/client/prompt/command_switcher.c										\
 				srcs/client/prompt/prompt_putting.c											\
 				srcs/client/prompt/cursor_navigation.c										\
-				srcs/client/commands/command_pointer_loader.c								\
 				srcs/client/commands/exit_command.c											\
 				srcs/client/message/load_received_messages.c								\
+				srcs/client/message/load_send_messages.c									\
 				srcs/client/message/send/cd_message.c										\
 				srcs/client/message/send/pwd_message.c										\
 				srcs/client/message/send/ls_message.c										\
@@ -89,6 +90,7 @@ SRCCLIENT	=	\
 				srcs/client/message/received/directory_message.c							\
 				srcs/client/message/received/upload_part_message.c							\
 				srcs/client/message/received/download_part_message.c						\
+				srcs/client/message/received/download_message.c								\
 				srcs/client/socket/handler.c												\
 				srcs/client/socket/socket.c													\
 				srcs/client/socket/session.c												\
@@ -98,6 +100,7 @@ SRCCLIENT	=	\
 				srcs/lib_file/is_regular.c													\
 				srcs/lib_file/is_device.c													\
 				srcs/lib_file/is_dir.c														\
+				srcs/lib_file/get_file_mode.c												\
 				srcs/lib_upload_download/load_new_download.c								\
 				srcs/lib_upload_download/load_new_upload.c									\
 				srcs/lib_upload_download/download_part.c									\

@@ -25,9 +25,11 @@ t_upload	*loadnewupload(char *filename, char *path)
 		return (NULL);
 	if (!is_regular(path))
 		return (NULL);
+	if (!(get_file_mode(path) & S_IRUSR))
+		return (NULL);
 	if (!(upload = (t_upload*)malloc(sizeof(t_upload))))
 		return (NULL);
-	stat(filename, &buf);
+	stat(path, &buf);
 	upload->size = buf.st_size;
 	upload->path = ft_strdup(path);
 	upload->filename = ft_strdup(filename);
