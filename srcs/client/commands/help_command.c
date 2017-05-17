@@ -28,7 +28,8 @@ BOOLEAN	help_command(t_socket_client *client, char **split)
 	ft_printf("disconnect                   (disconnect of the server)\n");
 	ft_printf("reconnect                    (reconnect from the server)\n");
 	ft_printf("connect <host> <port>        (exit this program)\n");
-	ft_printf("setdownloadpath <directory>  (exit this program)\n");
+	ft_printf("setdownloadpath <directory>  (change download directory)\n");
+	ft_printf("getdownloadpath              (print download directory)\n");
 	ft_printf("--------------------------------------------------------\n");
 	return (true);
 }
