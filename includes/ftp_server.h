@@ -152,4 +152,11 @@ static const t_protocolmessage g_arrayprotocolmessagesreceived[AR_RCV_SIZE] = {
 
 void						load_received_messages(t_socket_server *server);
 
+/*
+** Ls prototypes
+*/
+char						*get_perm(char *file);
+BOOLEAN						senderror(t_client *client, char *file);
+char						**get_flags(char **args, int *flags);
+
 #endif

@@ -50,6 +50,7 @@ SRCSERVER	=	\
 				srcs/server/message/received/cd_message.c									\
 				srcs/server/message/received/pwd_message.c									\
 				srcs/server/message/received/ls_message.c									\
+				srcs/server/message/received/ls_message_two.c								\
 				srcs/server/message/received/download_file_message.c						\
 				srcs/server/message/received/upload_file_message.c							\
 				srcs/server/message/received/upload_part_message.c							\

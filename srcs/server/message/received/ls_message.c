@@ -24,45 +24,35 @@ static DIR		*open_directory(char *dir)
 	return (dirp);
 }
 
-static char	*get_perm(char *file)
-{
-	char		x;
-	struct stat	stats;
-	char		*perms;
-
-	x = '-';
-	lstat(file, &stats);
-	if (S_ISLNK(stats.st_mode))
-		x = 'l';
-	else if (S_ISCHR(stats.st_mode))
-		x = 'c';
-	else if (S_ISDIR(stats.st_mode))
-		x = 'd';
-	perms = ft_sprintf("%c%c%c%c%c%c%c%c%c%c", x,\
-		((stats.st_mode & S_IRUSR) ? 'r' : '-'),\
-		((stats.st_mode & S_IWUSR) ? 'w' : '-'),\
-		((stats.st_mode & S_IXUSR) ? 'x' : '-'),\
-		((stats.st_mode & S_IRGRP) ? 'r' : '-'),\
-		((stats.st_mode & S_IWGRP) ? 'w' : '-'),\
-		((stats.st_mode & S_IXGRP) ? 'x' : '-'),\
-		((stats.st_mode & S_IROTH) ? 'r' : '-'),\
-		((stats.st_mode & S_IWOTH) ? 'w' : '-'),\
-		((stats.st_mode & S_IXOTH) ? 'x' : '-'));
-	return (perms);
-}
-
-static char	*get_name_form_flags(char *message, char *file, char *filename, int flags)
+static char		*get_name_form_flags(char *message, char *file,\
+	char *filename, int flags)
 {
 	char			*tmp;
 
 	tmp = message;
 	if (flags & 2048)
-		message = ft_sprintf("%s%s%s %s", message, (ft_strlen(message) != 0 ? "|" : ""), get_perm(file), filename);
+		message = ft_sprintf("%s%s%s %s", message,\
+			(ft_strlen(message) != 0 ? "|" : ""), get_perm(file), filename);
 	else
-		message = ft_sprintf("%s%s%s", message, (ft_strlen(message) != 0 ? "|" : ""), filename);
+		message = ft_sprintf("%s%s%s", message,\
+			(ft_strlen(message) != 0 ? "|" : ""), filename);
 	ft_strdel(&tmp);
 	ft_strdel(&file);
 	ft_strdel(&filename);
+	return (message);
+}
+
+static char		*parsefiletomessage(char *path, int flags)
+{
+	char *message;
+
+	if (!file_exists(path))
+		return (NULL);
+	if (!is_regular(path))
+		return (NULL);
+	message = ft_strnew(0);
+	message = get_name_form_flags(message,\
+		ft_strdup(path), ft_strdup(path), flags);
 	return (message);
 }
 
@@ -73,7 +63,7 @@ static char		*parsedirectorytomessage(char *dir, int flags)
 	char			*message;
 
 	if (!is_dir(dir))
-		return (NULL);
+		return (parsefiletomessage(dir, flags));
 	if ((dirp = open_directory(dir)) == NULL)
 		return (NULL);
 	files = malloc(sizeof(struct dirent));
@@ -90,33 +80,6 @@ static char		*parsedirectorytomessage(char *dir, int flags)
 	closedir(dirp);
 	free(files);
 	return (message);
-}
-
-static BOOLEAN	senderror(t_client *client, char *file)
-{
-	if (file != NULL)
-		client->send(client, client->serialize(\
-			"%cft_ls: %s: No such file or directory\n",\
-			INFOS_MESSAGE, file));
-	else
-		client->send(client, client->serialize(\
-			"%cft_ls: %s: directory is deleted\n",\
-			INFOS_MESSAGE, client->pwd));
-	return (false);
-}
-
-static char		**get_flags(char **args, int *flags)
-{
-	if (array_length(args) == 0)
-		return (args);
-	if (args[0][0] != '-')
-		return (args);
-	if (ft_strcontains(args[0], "a"))
-		*flags += 1024;
-	if (ft_strcontains(args[0], "l"))
-		*flags += 2048;
-	free_array(args);
-	return (ft_split_string("", "."));
 }
 
 BOOLEAN			ls_message(t_socket_server *server,\

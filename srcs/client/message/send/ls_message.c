@@ -18,7 +18,10 @@ BOOLEAN	ls_message(t_socket_client *client, char **split)
 		return (false);
 	if (array_length(split) == 1)
 		client->send(client, client->serialize("%c", 102));
-	else
+	else if (array_length(split) == 2)
 		client->send(client, client->serialize("%c%s", 102, split[1]));
+	else if (array_length(split) == 3)
+		client->send(client, client->serialize("%c%s|%s", 102,\
+			split[1], split[2]));
 	return (true);
 }
